@@ -475,3 +475,5 @@ To view the list of Fabric APIs, click http://[Fabric IP address]:3213/static/do
 ```
 
  
+
+[![Previous](/articles/images/Previous.png)](01_change_data_capture_overview.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](03_cdc_implementation_steps.md)
