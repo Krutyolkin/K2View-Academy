@@ -3,9 +3,10 @@
 Fabric [CDC messages](02_cdc_messages.md) can be classified into two main categories:
 
 - Schema update - initiated by updates on the LU level.
+
 - Data update - initiated by updated on a given LUI.
 
-
+  
 
 The diagram below describes the list of events that trigger CDC messages:
 
@@ -23,8 +24,8 @@ It is possible to republish the LU schema to all CDC consumers or to a selected 
 
 - Republish **Customer** schema to all CDC consumers:
   - cdc_republish_schema Customer; 
-- Republish **Customer** schema to **cdc_type1** and **cdc_type2** CDC consumers:
-  - cdc_republish_schema Customer types='cdc_type1,'cdc_type2';
+- Republish **Customer** schema to **Search** and **Tableau** CDC consumers:
+  - cdc_republish_schema Customer types='Search','Tableau';
 
 
 
@@ -36,7 +37,7 @@ It is possible to republish the LU schema to all CDC consumers or to a selected 
 
 - Note that if a new LU table with CDC columns is added to the LU schema, the deploy of the updated LU republishes the metadata of the new LU table. However, the data of the new LU Table cannot be republished to the CDC consumers, because it is not synced with Fabric yet. In this case it is recommended to re-migrate all LUIs to enable the population of the new LU table in Fabric and enable Fabric republishing the data of the new LU table to the CDC consumers. For example- re-migrate all LUIs of the **Customer** LU:
 
-  - BATCH Customer from fabric fabric_command='sync_instance Customer.?';
+  - batch Customer from fabric fabric_command='sync_instance Customer.?';
 
   [Click for more information about the Batch commands](/articles/20_jobs_and_batch_services/12_batch_sync_commands.md).
 
