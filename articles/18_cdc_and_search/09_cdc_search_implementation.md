@@ -108,7 +108,7 @@ The default built-in types of the Search Indexes are:
   - Customer ID is a data field.
 - You can run a search to get the list of all customer IDs called “John Doe”. 
 
-#### Search Index Types' Templates
+### Search Index Types' Templates
 
 -  Fabric supports adding templates for search indexes when the default settings do not match your search needs. For example: support case insensitive search by special characters (search by  mail address).
 
@@ -145,7 +145,7 @@ The default built-in types of the Search Indexes are:
 </td>
 <td valign="top" width="300pxl">
 <ul>
-<li><a href="mailto:JohnD@gmail.com">JohnD@gmail.com</a>&nbsp;matches <a href="mailto:johnd@gmail">johnd@gmail</a></li>
+<li>JohnD@gmail.com matches johnd@gmail.com</li>
 <li>JohnD@gmail does not match JohnD@yahoo.com</li>
 </ul>
 </td>
@@ -189,10 +189,9 @@ The default built-in types of the Search Indexes are:
 </table>
 
 
+#### Adding the Templates to the Types List for Search Columns
 
-##### Adding the Templates to the Types List for Search Columns
-
-1. Right-click the project name and select the ‘**Open Folder**’ option. 
+1. Go tp the project tree, right-click the project name >  **Open Folder**. 
 
 2. Open the [project name].k2proj file for editing.
 
@@ -216,3 +215,26 @@ The default built-in types of the Search Indexes are:
 5. Close and reopen your project to reload the updated . k2proj file.
 
 6. When you create a new Search index, you can also select the added template as a **Type**.
+
+   
+
+#### Update Search Columns Using Templates
+
+- Fabric only supports using templates on Search indexes when setting the template as a type on the first deploy of the corresponding LU table. This is because Fabric creates an index in the Elasticsearch for each LU Table that has Search indexes. Using a template on a search field requires different index settings in the Elasticsearch.  Since the index settings cannot be changed once created in the Elasticsearch, an update of the search field from a supported Elasticsearch type to a template requires the following working procedure:
+
+  - Getting the index definition from the Elasticsearch using Elasticsearch API.
+  - Removing the index definition from the Elasticsearch using Elasticsearch API.
+  - Creating the updated index in the Elasticsearch using Elasticsearch API. 
+  - Initiating a [batch process] to run CDC_REPUBLISH_INSTANCE to republish the data of each LUI to the Elasticsearch.
+
+- Notes:
+
+  - Updating the Search index type in the Fabric Studio and redeploying the LU does not re-create the Search index in the Elasticsearch, since Fabric already has the LU table and therefore identifies this change as schema update instead of creating a new index in the Elasticsearch.
+  - Removing and re-adding the LU table from Fabric is not recommended, since the data of the table might be lost for all the LU instances, that already exist in Fabric. For example:
+    - Remove Address LU table from Customer LU and redeploy the updated Customer LU to Fabric.
+    - Re-add the Address LU table into the Customer LU and redeploy the updated LU to Fabric.
+    - The Address LU table is added as empty table. You must re-sync the LUIs to get the Address data for them. 
+
+  
+
+[![Previous](/articles/images/Previous.png)](03_cdc_implementation_steps.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_cdc_other_consumers_implementation.md)
