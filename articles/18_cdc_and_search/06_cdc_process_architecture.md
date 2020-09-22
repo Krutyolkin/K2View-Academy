@@ -16,79 +16,23 @@ If the transaction is interrupted, rollbacked,  or failed, a **Rollback message*
 
 ### CDC Collector
 
-The CDC Collector publishes compressed transaction messages to **Kafka**. Kafka has one topic per LU to keep the transaction messages. The partition key is the hashed value of the LUI and the transaction id.
+The CDC Collector publishes transaction messages to **Kafka**  for each UPDATE, INSERT, or DELETE activity. Kafka has one topic- CDC_TOPIC - to keep the transaction messages. The partition key is the LUI (iid).
 
 ### CDC Publisher
 
-The CDC Publisher consumes the transaction messages from Kafka and creates a MicroDB for each transaction to hold the data changes for a specific instance.
+When the MicroDB is saved into Cassandra, the thread of the transaction sends a **Publish Acknowledge**  message to the **CDC_TOPIC** of Kafka when the MicroDB is saved to Cassandra. 
 
-The schema will contain:
+The CDC_TRANSACTION_PUBLISHER job consumes the transaction messages from Kafka and creates a [CDC message](02_cdc_messages.md) on each transaction. Each CDC consumer has its own Kafka topic.
 
-· A metadata table – holds the instance id, transaction-id
+#### TRANSACTION_ACKNOWLEDGE_TIME_SEC Parameter
 
-· A data tables – that holds all the data change messages
+Fabric [confing.ini](/articles/02_fabric_architecture/05_fabric_main_configuration_files.md#configini) file defines the following parameter to set the maximum time to wait between the commit of the transaction and the Publish Acknowledge message which is sent when the transaction is successfully saved into Cassandra: 
 
-o Corresponding table for each “relevant table from the LU schema”
+- TRANSACTION_ACKNOWLEDGE_TIME_SEC=60
 
-o “Relevant table” - is a table that has at least one column set to be published.
+The default value of this parameter is 60 seconds.
 
-o Table schema, will have the following columns:
+The following diagram displays how Fabric handles this parameter:
 
-§ PK columns – add PK index
-
-§ Message type
-
-§ Serialized message
-
-
-
-On “CDC Message”
-
-The row will be added based on the PK.
-
-For example:
-
-\1. Insert message – add it
-
-\2. Upsert - If two inserts for the same PK comes in – two messages will be added instead of 3 (insert,delete,insert). The flow is as follow:
-
-First message – “insert" => add it
-
-Second message “delete” => execute it => will remove the first message => then add it (if there’s already delete message associated with the same key, then this message will not be added)
-
-Third message – “insert” => add it
-
-\3. Update message will be executed & added (by PK of new values).
-
-\4. Delete message will be executed & added
-
-
-
-On Rollback
-
-Rollback transaction
-
-Remove Kafka messages for the relevant transaction?
-
-
-
-On commit
-
-\1. Commit the transaction.
-
-\2. Publish the messages to a topic designated for ready messages to be consumed by the “Data changes loaders”
-
-\3. When all messages published successfully, acknowledge the messages on the “On going transaction” kafka topic.
-
-(We might need an additional message type - “publish”, for cases where LU transactions is committed but failed right after the MDB save)
-
-Zombie Transaction
-
-This is a thread that will search for a transaction that saved to the storage layer but not notified to the message bus.
-
-It will periodically search for the transaction-id in the transaction-id table on the relevant LUI MDB.
-
-If found, See “On Commit”/OnPublish? in CDC Publisher
-
-
+![acknowledge time](images/cdc_publish_acknowledge_time_seq.png)
 
