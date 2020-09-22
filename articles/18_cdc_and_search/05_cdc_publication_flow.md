@@ -77,3 +77,6 @@ TRUNCATE – if True, send a CDC Delete Tables message about  the LUI before rep
   - cdc_republish_instance Customer.1 types='Search,Tableau' truncate=false;
 - Republish the CDC data of the CUSTOMER and ADDRESS LU tables for Customer 1 to the specified CDC consumers:
   - cdc_republish_instance Customer.1 tables='CUSTOMER, ADDRESS’ types='Search,Tableau';
+
+
+
