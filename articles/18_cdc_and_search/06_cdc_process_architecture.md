@@ -4,7 +4,7 @@ Fabric CDC process aggregates data updates on the [MicroDB](/articles/02_fabric_
 
 The following diagram describes the CDC process:
 
-![CDC flow](D:/K2View-Academy/articles/18_cdc_and_search/images/cdc_data_flow_diagram.png)
+![CDC flow](images/cdc_data_flow_diagram.png)
 
 ### MicroDB Update
 
@@ -26,7 +26,7 @@ The CDC_TRANSACTION_PUBLISHER job consumes the transaction messages from Kafka a
 
 #### TRANSACTION_ACKNOWLEDGE_TIME_SEC Parameter
 
-Fabric [confing.ini](/articles/02_fabric_architecture/05_fabric_main_configuration_files.md#configini) file defines the following parameter to set the maximum time to wait between the commit of the transaction and the Publish Acknowledge message which is sent when the transaction is successfully saved into Cassandra: 
+Fabric [confing.ini](/articles/02_fabric_architecture/05_fabric_main_configuration_files.md#configini) file defines the following parameter which sets the maximum waiting time between the commit of the transaction and the Publish Acknowledge message which is sent when the transaction is successfully saved into Cassandra: 
 
 - TRANSACTION_ACKNOWLEDGE_TIME_SEC=60
 
