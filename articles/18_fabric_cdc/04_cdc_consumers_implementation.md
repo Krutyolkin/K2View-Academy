@@ -21,14 +21,7 @@ You can customize Fabric Studio and add consumers for the CDC fields by editing 
            <option>date</option>
          </Options>
        </DataChange>
-   	 <DataChange name="Search" enabled="true">
-         <Options>
-           <option>keyword</option>
-           <option>data</option>
-           <option>date</option>
-         </Options>
-       </DataChange>
-   	 <DataChange name="Tableau" enabled="true">
+   	<DataChange name="Tableau" enabled="true">
          <Options>
            <option>keyField</option>
            <option>dataField</option>
@@ -36,11 +29,11 @@ You can customize Fabric Studio and add consumers for the CDC fields by editing 
        </DataChange>
      </DataChangeIndicators>
    ```
-
-   Note that you cannot use the **Search** name for additional data change consumer. This name is reserved for the **ElasticSearch**. 
-
    
-
+   Note that you cannot use the **Search** name for additional data change consumer. This name is reserved for the **ElasticSearch**. 
+   
+   
+   
 4. Save and close the .k2proj file.
 
 5. Close and reopen your project to reload the changes of the .k2proj file.
