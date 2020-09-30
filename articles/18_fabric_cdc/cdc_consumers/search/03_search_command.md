@@ -19,7 +19,7 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 
 
 
-<table width="950pxl">
+<table width="900pxl">
 <tbody>
 <tr>
 <td valign="top" width="100pxl"><strong>Use Case</strong></td>
@@ -27,7 +27,7 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 <td valign="top" width="100pxl"><strong>Search Index Type</strong></td>
 <td valign="top" width="200pxl"><strong>Implementation Guidelines</strong></td>
 <td valign="top" width="100pxl"><strong>ES method</strong></td>
-<td valign="top" width="350pxl"><strong>Search Example</strong></td>
+<td valign="top" width="300pxl"><strong>Search Example</strong></td>
 </tr>
       <tr>
 <td valign="top" width="100pxl">Pattern Matching</td>
@@ -35,18 +35,18 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 <td valign="top" width="100pxl">Keyword</td>
 <td valign="top" width="200pxl">&nbsp;</td>
 <td valign="top" width="100pxl">query_string</td>
-<td valign="top" width="350pxl">
+<td valign="top" width="300pxl">
 <ul>
 <li>Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }</li>
 </ul>
 </td>
 </tr>
     <td valign="top" width="100pxl">Identical values- case sensitive check</td>
-<td valign="top" width="150pxl">Tali = Tali</td>
+<td valign="top" width="100pxl">Tali = Tali</td>
 <td valign="top" width="100pxl">Keyword</td>
 <td valign="top" width="200pxl">&nbsp;</td>
 <td valign="top" width="100pxl">match/match_phrase</td>
-<td valign="top" width="450pxl">
+<td valign="top" width="300pxl">
 <ul>
 <li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "FULL_NAME": {"query" : "Waneta Hensley"}}}}';</li>
 </ul>
