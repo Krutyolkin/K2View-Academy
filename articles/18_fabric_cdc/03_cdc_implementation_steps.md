@@ -16,7 +16,7 @@ The following diagram is an overview of the main steps to create CDC indexes for
 
 The following diagram is an overview of the main steps to create Search indexes :
 
-[<img src="images/cdc_imp_search_1.png" alt="drawing"/>](04_cdc_search_implementation.md#creating-search-indexes)[<img src="images/cdc_imp_search_2.png" alt="drawing"/>](04_cdc_search_implementation.md#creating-search-indexes)
+[<img src="images/cdc_imp_search_1.png" alt="drawing"/>](/articles/18_fabric_cdc/cdc_consumers/search/02_search_implementation.md#creating-search-indexes)[<img src="images/cdc_imp_search_2.png" alt="drawing"/>](/articles/18_fabric_cdc/cdc_consumers/search/02_search_implementation.md#creating-search-indexes)
 
 
 

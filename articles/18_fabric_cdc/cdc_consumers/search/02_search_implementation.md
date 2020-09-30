@@ -225,7 +225,7 @@ The default built-in types of the Search Indexes are:
   - Getting the index definition from the Elasticsearch using Elasticsearch API.
   - Removing the index definition from the Elasticsearch using Elasticsearch API.
   - Creating the updated index in the Elasticsearch using Elasticsearch API. 
-  - Initiating a [batch process] to run CDC_REPUBLISH_INSTANCE to republish the data of each LUI to the Elasticsearch.
+  - Initiating a [batch process](/articles/20_jobs_and_batch_services/11_batch_process_overview.md) to run CDC_REPUBLISH_INSTANCE to republish the data of each LUI to the Elasticsearch.
 
 - Notes:
 
@@ -237,4 +237,4 @@ The default built-in types of the Search Indexes are:
 
   
 
-[![Previous](/articles/images/Previous.png)](03_cdc_implementation_steps.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_cdc_other_consumers_implementation.md)
+[![Previous](/articles/images/Previous.png)](01_search_overview_and_use_cases.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_cdc_other_consumers_implementation.md)
