@@ -1,4 +1,4 @@
-# CDC Configurations
+# CDC Configuration
 
 Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configuration_files.md#configini) has several sections for CDC configuration:
 
