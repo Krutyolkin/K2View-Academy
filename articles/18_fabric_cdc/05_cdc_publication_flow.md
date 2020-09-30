@@ -80,3 +80,4 @@ TRUNCATE – if True, send a CDC Delete Tables message about  the LUI before rep
 
 
 
+[![Previous](/articles/images/Previous.png)](04_cdc_consumers_implementation.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](06_cdc_process_architecture.md)

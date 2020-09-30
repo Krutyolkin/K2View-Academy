@@ -36,3 +36,16 @@ The following diagram displays how Fabric handles this parameter:
 
 ![acknowledge time](images/cdc_publish_acknowledge_time_seq.png)
 
+### CDC Consumer
+
+Fabric has a built-in integration with Elasticsearch. The CDC_TRANSACTION_CONSUMER jobs starts automatically when deploying an LU with Search indexes.  The UID of this jobs is **Search**. The CDC consumer job consumes the messages of the  **Search** topic of Kafka and creates the search indexes in the Elasticsearch.
+
+[Click for more information about LUI data indexing flow in the Elasticsearch].
+
+### CDC Transaction Debug 
+
+???
+
+
+
+[![Previous](/articles/images/Previous.png)](05_cdc_publication_flow.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](07_cdc_configuration.md)
