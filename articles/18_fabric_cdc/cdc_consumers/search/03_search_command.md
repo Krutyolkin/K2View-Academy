@@ -19,23 +19,23 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 
 
 
-<table>
+<table width="950pxl">
 <tbody>
 <tr>
 <td valign="top" width="100pxl"><strong>Use Case</strong></td>
-<td valign="top" width="150pxl"><strong>Example</strong></td>
+<td valign="top" width="100pxl"><strong>Example</strong></td>
 <td valign="top" width="100pxl"><strong>Search Index Type</strong></td>
 <td valign="top" width="200pxl"><strong>Implementation Guidelines</strong></td>
 <td valign="top" width="100pxl"><strong>ES method</strong></td>
-<td valign="top" width="450pxl"><strong>Search Example</strong></td>
+<td valign="top" width="350pxl"><strong>Search Example</strong></td>
 </tr>
       <tr>
 <td valign="top" width="100pxl">Pattern Matching</td>
-<td valign="top" width="150pxl">Tal* = Tali</td>
+<td valign="top" width="100pxl">Tal* = Tali</td>
 <td valign="top" width="100pxl">Keyword</td>
 <td valign="top" width="200pxl">&nbsp;</td>
 <td valign="top" width="100pxl">query_string</td>
-<td valign="top" width="450pxl">
+<td valign="top" width="350pxl">
 <ul>
 <li>Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }</li>
 </ul>
