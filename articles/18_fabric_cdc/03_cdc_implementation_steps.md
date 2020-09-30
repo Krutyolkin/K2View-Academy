@@ -24,4 +24,4 @@ The following diagram is an overview of the main steps to create Search indexes 
 
 
 
-[![Previous](/articles/images/Previous.png)](02_cdc_messages.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](04_cdc_search_implementation.md)
+[![Previous](/articles/images/Previous.png)](02_cdc_messages.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](04_cdc_consumers_implementation.md)
