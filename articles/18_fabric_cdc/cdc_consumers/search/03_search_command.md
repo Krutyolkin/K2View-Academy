@@ -15,667 +15,432 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
   - The list of Search fields, defined in the specified LU table.
   - The score returned by the Elasticsearch.
 
-### Search Command- Examples
+## Search Command- Examples
 
-<table width="900">
-<tbody>
-<tr>
-<td valign="top" width="100"><strong>Use Case</strong></td>
-<td valign="top" width="100"><strong>Example</strong></td>
-<td valign="top" width="100"><strong>Search Index Type</strong></td>
-<td valign="top" width="200"><strong>Implementation Guidelines</strong></td>
-<td valign="top" width="100"><strong>ES method</strong></td>
-<td valign="top" width="300"><strong>Search Example</strong></td>
-</tr>
-      <tr>
-<td valign="top" width="100">Pattern Matching</td>
-<td valign="top" width="100">Tal* = Tali</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">query_string</td>
-<td valign="top" width="300">
-<p>Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }</p>
-</td>
-</tr>
-    <td valign="top" width="100">Identical values- case sensitive check</td>
-<td valign="top" width="100">Tali = Tali</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">match/match_phrase</td>
-<td valign="top" width="300">
- </td>
-</tr>
-    <td valign="top" width="100">Identical values- case sensitive check</td>
-<td valign="top" width="100">Tali = Tali</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">match/match_phrase</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "FULL_NAME": {"query" : "Waneta Hensley"}}}}';</p>
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL.keyword": {"query" : "tali.einhorn@k2view.com"}}}}';</p>
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "CUSTOMER_ID": {"query" : "20"}}}}';</p>
-</td>
-</tr>
-    <td valign="top" width="100">Identical values including special characters- case insensitive check</td>
-<td valign="top" width="100">Tali = tali = TALI&nbsp;</td>
-<td valign="top" width="100">case-insensitive-match</td>
-<td valign="top" width="200">Add <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">match</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": { "match": { "FIRST_NAME": "chris" }}}</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Fuzzy search, ignore spelling errors.</td>
-<td valign="top" width="100">
-<p>Ludwigshafern = Ludwigshafen</p>
-<p>12345=12346 =1234</p>
- </td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">
-<p>query + match + fuzziness<p/>
-<p>You need to define the fuzziness parameter, i.e. how many mistakes are allowed</p>
-</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {&nbsp; &nbsp;"match" : {"CITY": {&nbsp;"query": "Ludwigshafern",&nbsp;&nbsp;"fuzziness": "2" }&nbsp;}}}</p>
-<p>Notes:
-<p>The fuziness parameter indicates how many mistakes are allowed (missing, extra, oe incorrect&nbsp; character).</p>
-<p>A swap of two adjacent characters- for example: 'Tali' and 'Tail'- is considered as one error.</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Fuzzy search- mail</td>
-<td valign="top" width="100">tali.einhorn@k2view.com = TALI.EINHORN@k2view.com = tali.einhon@k2view.com<br /> <br /> tali.einhorn@k2view.com != tali.einhorn@yahoo.com</td>
-<td valign="top" width="100">case-insensitive-match</td>
-<td valign="top" width="200">
-    <p> Add a <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive searches on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches "tali@gmail.com" to "tali.k2view.com". </p></td>
-<td valign="top" width="100">match + fuzziness</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL": {"query" : "tali.einhon@k2view.com", "fuzziness": "1"}}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Partial match- ignore additional information</td>
-<td valign="top" width="100">Frankfurt/Main' matches&nbsp; 'Frankfurt am Main'<br /> 'Charlottenburg bei Berlin' matches 'Berlin-Charlottenburg, F&uuml;rth/Bay'</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">Works for text fields only. If the field is defined as Integer in the implementation, the search does not work.</td>
-<td valign="top" width="100">Options:<br /> 1. match_phrase + slop. The value of the slop defines the number of words that can be located between the words of the search. The default of the slop is zero.<br /> 2 .match for each one of the required words <br /> Note- unlike the match- the match_phrase does not support using fuzziness. To use fuzziness- we need to run search with several match commands- one for each word + fuzziness</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "ADDRESS": {"query" : "Washington Rd", "slop": "2"}}}}';</p>
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "ADDRESS": {"query" : "Washington", "fuzziness": "1"}}},{"match" : { "ADDRESS": {"query" : "Rd", "fuzziness": "1"}}}]}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Ignore leading or trailing blanks</td>
-<td valign="top" width="100">1234 ' = ' 1234' = ' 1234 '</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">
-    <p>Works for Text fields only.</p></td>
-<td valign="top" width="100">&nbsp;</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Waneta"}}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Transposed digits- partial match- at least x characters must exist. At least y% of them must have the right order</td>
-<td valign="top" width="100">At least 4 digits must exist and at least 50% of them must be in the right order-<br /> '1243'/ '56347712'/'654331234' match '1234'.<br /> '7777712' and '8751883724' do not match '1234'&nbsp; <br /> 123456=1246= 9230056=1243</td>
-<td valign="top" width="100">precision-match-20</td>
-<td valign="top" width="200">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">bool + must</td>
-<td valign="top" width="300">
-<p>search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{ "must":[{"match":{"ACCOUNT_NUMBER.1gram":{ "query":"123456",&nbsp;"minimum_should_match":4}}},{"match":{"ACCOUNT_NUMBER.2gram":{"query":"123456","minimum_should_match":1 }}} ]}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Transposed digits- partial match- at least x characters must exist. At least y% of them must have the right order</td>
-<td valign="top" width="100">At least 6 digits must exist and at least 3 of them must be in the right order-<br /> '1243'/ '56347712'/'654331234' match '1234'.<br /> '7777712' and '8751883724' do not match '1234'&nbsp;&nbsp;</td>
-<td valign="top" width="100">precision-match-20</td>
-<td valign="top" width="200">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">bool + must</td>
-<td valign="top" width="300">
-<p>search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{"must":[ {"match":{"ACCOUNT_NUMBER.1gram":{"query":"86422233", "minimum_should_match":6 }}}, {"match":{"ACCOUNT_NUMBER.3gram":{"query":"86422233", "minimum_should_match":1&nbsp;}}} ] }}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">
-    <p>At least 4 digits exist in the searched field, but the searched field must not have more than two additional digits o letters.</p></td>
-<td valign="top" width="100">
- <p>'123456'= '1234'= '1234 AB'= '3456' = '345699'</p>
- <p>'123456' != '1234567' != '3456890' != '34599'</p> 
-</td>
-<td valign="top" width="100">precision-match-20</td>
-<td valign="top" width="200">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">
-    <p>bool + musy + fuzzy</p>
-    <p>Note that a fuzzy search supports up to two errors.</p></td>
-<td valign="top" width="300">
-<p>search lutype=ACCOUNT tables=ACCOUNT '{ "query":{ "bool":{"must":[{ "match":{"ACCOUNT_NUMBER.1gram":{"query":"123456", "minimum_should_match":4}}}, { "fuzzy":{"ACCOUNT_NUMBER":{"value":"123456", "fuzziness":"2", transpositions":false }}} ] }}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">
-<p>At least 6 digits exist in the searched field, but the seached field must not have more than two missing digits or letters.</p></td>
-<td valign="top" width="100">&gt; '12345678'= '123456' = '345679'<br /> &gt; '123456890' = '12345688'<br /> &gt; '12345678' != '12330000'<br /> &gt; '876543212' != '876543'</td>
-<td valign="top" width="100">precision-match-20</td>
-<td valign="top" width="200">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">bool + should + fuzzy</td>
-<td valign="top" width="300">
-<p>search lutype=ACCOUNT tables=ACCOUNT '{ "query":{"bool":{"should":[ { "match":{ "ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":6 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":7 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":8}}}{"fuzzy":{"ACCOUNT_NUMBER":{"value":"12345678", "fuzziness":"2", "transpositions":false }}} ] }}}';</p>
-<p>&nbsp;</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Only one digits is different in the searched field</td>
-<td valign="top" width="100">Searched value: '12345'-<br /> Return the following values: '12346', '15345'<br /> Do not return '12366'</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">query + fuzzy</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"fuzzy" : {"ZIP": {"value": "70451", "fuzziness": 1, "transpositions": false }}}}';</p>
-<p>search&nbsp;lutype=CUSTOMER tables=CUSTOMER '{"query": { "fuzzy" : { "NAME": { "value": "Tali", "fuzziness": 1, "transpositions": false } } }}';</p>
-<p>Note that when the transposition parameter is set to false, two adjacent characters are considered as two mistakes. By default- this parameter is set to true.</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Check several fields for match</td>
-<td valign="top" width="100">&gt; Check name + location<br /> &gt; NAME = 'EINHORN' and GIVEN_NAME = 'TALI' and BIRTH_DATE is null and POSTAL_CODE = '63462'<br /> &gt; Check Register_type + register_number+ register_city + location&nbsp;</td>
-<td valign="top" width="100">keyword/date</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">boolean match- bool + match or bool + query_string</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "FIRST_NAME": {"query" : "Marget", "fuzziness": "1"}}},{"match" : {"LAST_NAME":&nbsp; {"query" : "Lane", "fuzziness": "1"}}}, {"match": {"CITY": {"query" : "ROSCO", "fuzziness": "1"}}}, {"match": {"DATE1.date": {"query" : "2018-09-14"}}}]}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Support special characters- case insensitive</td>
-<td valign="top" width="100">David&amp;co = david&amp;co = davi@Co</td>
-<td valign="top" width="100">case-insensitive-match</td>
-<td valign="top" width="200">Add <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches "David" to "David@Co".</td>
-<td valign="top" width="100">match</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Davi&amp;co", "fuzziness": "1"}}}}';</p>
-</td>
-</tr>
-<td valign="top" width="100">Support scoring for matching</td>
-<td valign="top" width="100">Full match: 'Ludwigshafern' = 'Ludwigshafern' =&gt; gets scoring of 1<br /> Ignore spelling errors or additional information: 'Ludwigshafern' = 'Ludwigshafen', 'Charlottenburg bei Berlin' = 'Berlin-Charlottenburg' =&gt; gets scoring of 0.85 <br /> Partial match: "1234 AB" =&nbsp; "1234" = "123456"&nbsp; =&gt; gets scoring of 0.9&nbsp;</td>
-<td valign="top" width="100">&nbsp;</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">&nbsp;</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query":{"dis_max":{"queries":[ {"function_score":{"query":{"match":{"MAIL":"SyhKHckZ@gmail.com"}},"script_score":{"script":{"source":"0.9"}}, "score_mode":"max","boost_mode":"replace"}},{"function_score":{ "query":{ "match":{"MAIL":"SyhKHckZ@gmail.com"}}, "script_score":{ "script":{ "source":"1"}}, "score_mode":"max", "boost_mode":"replace"}}, {"function_score":{"query":{"match":{"MAIL":{"query": "SyhKHckZ@gmail.com", "fuzziness": 2}}}, "script_score":{"script":{"source":"0.85" }}, "score_mode":"max", "boost_mode":"replace" }} ] }}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Support predictive search</td>
-<td valign="top" width="100">When the user types 'Ber' =&gt; complete the value to 'Berlin'</td>
-<td valign="top" width="100">predictive-search</td>
-<td valign="top" width="200">Add <strong>predictive-search</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100">bool + query_string</td>
-<td valign="top" width="300">
-<p>Date fields:
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["DATE1"], "query" : "2018", "fuzziness": "1"}},{"query_string": { "fields": ["DATE1"], "query" : "09", "fuzziness": "1"}}]}}}';</p>
-</p>
-<p>Text fields:
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["ADDRESS"], "query" : "Washington", "fuzziness": "1"}},{"query_string": { "fields": ["ADDRESS"], "query" : "R*", "fuzziness": "1"}}]}}}';</p>
-</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Match multiple fields if they have crossed values. For example, the name and given name are populated in different fields</td>
-<td valign="top" width="100"> 
-        <p>NAME = 'Tali', FAMILY_NAME = "Einhorn"</p>
-        <p>NAME = 'Einhorn', FAMILY_NAME = 'Tali'</p>        
-</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">
-    <p>bool + must + multi_match.</p>
-    <p>Note: the difference between should and must: must- all conditions must match. Should- you can set a parameter - minimum_should_match- how many conditions needs to match</p>
-</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{ "multi_match": { "query": "Tali", "fields": ["NAME", "FAMILY_NAME"] } },<br /> { "multi_match": { "query": "Einhorn", "fields": ["NAME", "FAMILY_NAME"] } } ] }}}';</p>
-<p>&nbsp;</p>
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"multi_match": {"query": "Cris", "fields": ["FIRST_NAME", "LAST_NAME"]}}, {"multi_match": {"query": "Michael", "fields": ["FIRST_NAME", "LAST_NAME"]}}]}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Match a different order of words within a field</td>
-<td valign="top" width="100">Tali Einhorn'= 'Einhorn Tali'</td>
-<td valign="top" width="100">Keyword</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">match_phrase</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : {"FULL_NAME": {"query": "Cris Michael", "slop": 2 }}}}';</p>
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": { "match_phrase" : { "fullname": { "query": "Einhorn Tali", "slop": 2 }}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Check date ranges</td>
-<td valign="top" width="100"><p>
-    The date is between 2019-01-01 to 2019-02-01.</p></td>
-<td valign="top" width="100">date</td>
-<td valign="top" width="200"><p>          
-        <p>The date field must be kept in Fabric with a format, supported by the Elasticsearch. For example: 'YYYY-MM-DD'.</p>
-        <p>See the list of date formats in the Elasticsearch web site.</p>
-      </td>
-<td valign="top" width="100">range</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"range" : {"DATE1.date" : { "gt" : "2018-07-02", "lte" : "2018-08-07"}}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Check date values- check for equal dates</td>
-<td valign="top" width="100">2003-03-04 00:05:30' = '2003-03-04 00:05:30' = '2003/03/04 00:05:30' = '2003-MAR-04 00:05:30'<br /> '2019-01-20' = '20-JAN-2019' = '2019/01/20'</td>
-<td valign="top" width="100">date</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">query_string</td>
-<td valign="top" width="300">
-<p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"query_string": { "fields": ["DATE1.date"], "query": "2018-08-02"}}}';</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Check for empty string</td>
-<td valign="top" width="100">"Tali" = ""</td>
-<td valign="top" width="100">keyword</td>
-<td valign="top" width="200">Empty String are kept as null values in the ES</td>
-<td valign="top" width="100">bool + should + must_not + exist</td>
-<td valign="top" width="300">
-<p>Date field:
-<p>search lutype=CUSTOMER_ES tables=VISITS '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "VISIT_DATE"}}}}, {"match": {"VISIT_DATE.date": {"query": "2008-02-29"}}}]}}}';</p>
-</p>
-<p>&nbsp;</p>
-<p>Keyword field:
-<p>search lutype=CUSTOMER_ES tables=CUSTOMER '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "CITY"}}}}, {"match": {"CITY": {"query": "BABIT", "fuzziness": "2"}}}]}}}';</p>
-</p>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100">Check for null values</td>
-<td valign="top" width="100">birth_date may be empty for some of the customer and populated for others. Do we need to avoid including the birth_Date in the search if its value is null?</td>
-<td valign="top" width="100">keyword/date</td>
-<td valign="top" width="200">&nbsp;</td>
-<td valign="top" width="100">bool + should + must_not + exist</td>
-<td valign="top" width="300">
-<p>Date field:
-<p>search lutype=CUSTOMER_ES tables=VISITS '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "VISIT_DATE"}}}}, {"match": {"VISIT_DATE.date": {"query": "2008-02-29"}}}]}}}';</p>
-</p>
-<p>keyword field:
-<p>search lutype=CUSTOMER_ES tables=CUSTOMER '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "CITY"}}}}, {"match": {"CITY": {"query": "BABIT", "fuzziness": "2"}}}]}}}';</p>
-</td>
-</tr>
-</tbody>
-</table>   
+The following table contains examples of SEARCH commands for common use cases. 
+
+Note that the SEARCH command can run any search query, supposed by the Elasticsearch.
+
+- You can view the full list of search queries, supported by the Elasticsearch in the Elasticsearch web site: 
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html 
+
+### 1. Pattern Matching
+
+- #### Example
+
+  - Tal* = Tali = Talilla
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Elasticsearch Method
+
+  - query_string
+
+- #### Search Example
+  - Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }';
+
+### 2. Identical values,  Case Sensitive Check
+
+- #### Example
+
+  - Tali = Tali
+  - Tali != tali
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Elasticsearch Method
+
+  - match/match_phrase
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query":  {"match_phrase" : { "FULL_NAME.keyword": {"query" :  "Waneta Hensley"}}}}';    
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query":  {"match" : { "FIRST_NAME.keyword": {"query" :  "Tali"}}}}';
+
+### 3. Identical Values,  Support Special Characters,  Case Insensitive Match
+
+- #### Examples
+  - Tali = tali = TALI 
+  - Golf&Co = golf&co
+  - tali.einhorn@k2view.com = Tali.Einhorn@k2view.com
+  - tali.einhorn@k2view.com != tali.einhorn@gmail.com	
+
+- #### Search Index Type
+  - case-insensitive-match	
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [case-insensitive-match](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+
+- #### Elasticsearch Method
+  - match
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL": {"query" : "tali.einhorn@k2view.com"}}}}';
+
+### 4. Fuzzy Search, Ignore Typos
+
+- #### Examples
+  - Ludwigshafern = Ludwigshafen
+  - tali = taly
+  - 12345 = 12346 = 1234
+  - Only one digits is different in the searched field:
+    - 12345 = 12346 = 15345
+    - 12345 != 12366
+
+- #### Search Index Type	
+  - keyword
+
+- #### Elasticsearch Method
+  - query + match + fuzziness
+
+- #### Search Examples
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : {  "FIRST_NAME": {"query" : "Christina",  "fuzziness": "1" }}}}';
+  -  search lutype=CUSTOMER tables ADDRESS  ''{"query": {"match" : {"CITY": {"query" : "Ludwigshafern",  "fuzziness":  "2" } } }}';
+  - search lutype=CUSTOMER tables ADDRESS  ''{"query": {"match" : {"CITY": {"query" : "Ludwigshafern",  "fuzziness":  "2", "transpositions": false } } }}';
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"fuzzy" : {"ZIP": {"value": "12345", "fuzziness": 1, "transpositions": false }}}}';
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": { "fuzzy" : { "NAME": { "value": "Tali", "fuzziness": 1, "transpositions": false } } }}';
+
+- #### Notes
+
+  - The **fuzziness** parameter defines the number of mistakes (typos) allowed. This parameter can support up to two mistakes.
+
+  - By default, a swap of two adjacent characters (Orange vs. Ornage) is considered as one error by the **fuzziness** parameter. However, if you add the **transpositions** parameter to the search query and set it to **false**, the swap of two characters is considered as two mistakes.
+
+    Note that when the transposition parameter is set to false, two adjacent characters are considered as two mistakes. By default- this parameter is set to true.
+
+### 5. Fuzzy Search on Special Characters, Case Insensitive Match
+
+- #### Examples
+
+  - tali.einhorn@k2view.com = TALI.EINHON@k2view.com
+  - tali.einhorn@k2view.com != tali.einhorn@yahoo.com
+  - David&Co = david&co = davi@CO
+
+- #### Search Index Type
+
+  - case-insensitive-match
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [case-insensitive-match template](02_search_implementation.md#search-index-types-templates) to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+
+- #### Elasticsearch Method
+
+  -  match + fuzziness
+
+- #### Search Examples
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL": {"query" : "tali.einhon@k2view.com", "fuzziness": "1"}}}}';
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "David&Co", "fuzziness": "1"}}}}';
+
+### 6. Partial Match, Ignore Additional Information
+
+- #### Examples
+
+  - Washington Rd = Washington xx Rd
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Fabric Implementation Guidelines
+
+  - This matching rule only works for Text columns. If the LU table's column is set to another data type, this matching rule will not work.
+
+- #### Elasticsearch Method Options
+
+  - **match_phrase + slop**. The value of the **slop** parameter defines the number of words that can be located between the words of the search. The default of the slop is zero.
+  - Set **match** method on each one of the required words. 
+  - Note that unlike the **match** method,  the **match_phrase does not support the use of fuzziness**. To use fuzziness, you need to use the **match** option.
+
+- #### Search Examples
+
+  - match_phrase query
+    - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "ADDRESS": {"query" : "Washington Rd", "slop": "2"}}}}';
+      search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "ADDRESS": {"query" : "Washington", "fuzziness": "1"}}},{"match" : { "ADDRESS": {"query" : "Rd", "fuzziness": "1"}}}]}}}';
+  - match query
+    - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "ADDRESS": {"query" : "Washington", "fuzziness": "1"}}},{"match" : { "ADDRESS": {"query" : "Rd", "fuzziness": "1"}}}]}}}';
+
+### 7. Ignoring Leading or Trailing Blank Characters
+
+- #### Examples
+
+  - '1234' = ' 1234' = '1234 ' 
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Fabric Implementation Guidelines
+
+  - This matching rule only works for Text columns. If the LU table's column is set to another data type, this matching rule will not work.
+
+- #### Elasticsearch Method
+
+  - match
+
+- #### Search Examples
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Waneta"}}}}';
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "ID_NUMBER": {"query" : "1234"}}}}';
+
+### 8. Transposed Digits- Partial Match
+
+- #### Description
+
+  - At least x characters must exist in the searched field and at least y% of them must be in the right order.
+
+- #### Examples
+
+  - At least 4 digits must exist in the searched field and at least 50% of them must be in the right order.
+    - 1234 = 1243 = 56347712
+    - 1234 != 7777712
+    - 1234 != 8751883724
+    - 123456 = 1246 = 9230056 = 1243
+  - At least 6 digits must exist  in the searched field and at least 3 of them must be in the right order.
+    - 123456 = 1238888654 = 9994560321
+    - 123456 != 1238888
+    - 123456 != 654321
+
+- #### Search Index Type
+
+  - precision-match-20
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+
+- #### Elasticsearch Method
+
+  - bool + must + N-gram tokenizers
+
+- #### Search Examples
+
+  - At least 4 digits must exist in the searched field and at least 50% of them must be in the right order:
+    - search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{ "must":[{"match":{"ACCOUNT_NUMBER.1gram":{ "query":"123456", "minimum_should_match":4}}},{"match":{"ACCOUNT_NUMBER.2gram":{"query":"123456","minimum_should_match":1 }}} ]}}}';
+  - At least 6 digits must exist  in the searched field and at least 3 of them must be in the right order:
+    - search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{"must":[ {"match":{"ACCOUNT_NUMBER.1gram":{"query":"86422233", "minimum_should_match":6 }}}, {"match":{"ACCOUNT_NUMBER.3gram":{"query":"86422233", "minimum_should_match":1 }}} ] }}}';
+
+### 9. Partial Match, Ignore a Limited Number of Additional Digits or Letters
+
+- #### Example
+
+  - At least 4 digits exist in the searched field, but the searched field must not have more than two additional digits or letters.
+    - 123456 = 1234 = 1234 AB = 3456 = 345699
+    - 123456 != 1234567
+    - 123456 != 3456890
+    - 123456 != 34599
+
+- #### Search Index Type
+
+  - precision-match-20
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+
+- #### Elasticsearch Method
+
+  - bool + must + fuzziness +  N-gram tokenizers
+  - Note that a fuzzy search supports up to two mistakes.
+
+- #### Search Example
+
+  - search lutype=ACCOUNT tables=ACCOUNT '{ "query":{ "bool":{"must":[{ "match":{"ACCOUNT_NUMBER.1gram":{"query":"123456", "minimum_should_match":4}}}, { "fuzzy":{"ACCOUNT_NUMBER":{"value":"123456", "fuzziness":"2", transpositions":false }}} ] }}}';
+
+### 10. Partial Match, Ignore a Limited Number of Missing Digits or Letters
+
+- #### Example
+
+  - At least 6 digits exist in the searched field, but the searched field must not have more than two missing digits or letters.
+    - 12345678 = 123456 = 3456789
+    - 123456890 = 12345688
+    - 12345678 != 12330000
+    - 876543212 != 876543
+
+- #### Search Index Type
+
+  - precision-match-20
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+
+- #### Elasticsearch Method
+
+  - bool + should + fuzziness +  N-gram tokenizers
+  - Note that a fuzzy search supports up to two mistakes.
+
+- #### Search Example
+
+  - search lutype=ACCOUNT tables=ACCOUNT '{ "query":{"bool":{"should":[ { "match":{ "ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":6 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":7 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":8}}}{"fuzzy":{"ACCOUNT_NUMBER":{"value":"12345678", "fuzziness":"2", "transpositions":false }}} ] }}}';
+
+### 11. Match by Several Fields 
+
+- #### Examples
+
+  - NAME = 'EINHORN' and GIVEN_NAME = 'TALI' and BIRTH_DATE is 01-JAN-18 null and POSTAL_CODE = '63462' 
+  - Check Register_type + register_number+ register_city + location 
+
+- #### Search Index Type
+
+  - keyword/date
+
+- #### Elasticsearch Method
+
+  - bool + must + match
+  - bool + must + query_string
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "FIRST_NAME": {"query" : "Marget", "fuzziness": "1"}}},{"match" : {"LAST_NAME":  {"query" : "Lane", "fuzziness": "1"}}}, {"match": {"CITY": {"query" : "ROSCO", "fuzziness": "1"}}}, {"match": {"DATE1.date": {"query" : "2018-01-01"}}}]}}}';
+
+### 12. Match Cross Values of Multiple Fields 
+
+- #### Examples
+
+  - NAME = Tali, FAMILY_NAME = Einhorn
+  - NAME = Einhorn, FAMILY_NAME = Tali
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Elasticsearch Method
+
+  - bool + must + multi_match.
+  - Note that when using **must** method, all the conditions must match. However, when using  **should**  method you can set a parameter- **minimum_should_match**- to define how many conditions need to match by the search query.
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{ "multi_match": { "query": "Tali", "fields": ["NAME", "FAMILY_NAME"] } }, { "multi_match": { "query": "Einhorn", "fields": ["NAME", "FAMILY_NAME"] } } ] }}}';
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"multi_match": {"query": "Cris", "fields": ["FIRST_NAME", "LAST_NAME"]}}, {"multi_match": {"query": "Michael", "fields": ["FIRST_NAME", "LAST_NAME"]}}]}}}';
+
+### 13. Support Scoring for Matching
+
+- #### Examples
+  - Full match - Ludwigshafern = Ludwigshafern - gets a scoring of 1.
+  - Partial match - 1234 AB  = 1234 = 123456  - gets a scoring of 0.9. 
+  - Ignoring spelling errors or additional information -  Ludwigshafern = Ludwigshafen - gets  a scoring of 0.85.
+
+- #### Search Examples
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query":{"dis_max":{"queries":[ {"function_score":{"query":{"match":{"MAIL":"SyhKHckZ@gmail.com"}},"script_score":{"script":{"source":"0.9"}}, "score_mode":"max","boost_mode":"replace"}},{"function_score":{ "query":{ "match":{"MAIL":"SyhKHckZ@gmail.com"}}, "script_score":{ "script":{ "source":"1"}}, "score_mode":"max", "boost_mode":"replace"}}, {"function_score":{"query":{"match":{"MAIL":{"query": "SyhKHckZ@gmail.com", "fuzziness": 2}}}, "script_score":{"script":{"source":"0.85" }}, "score_mode":"max", "boost_mode":"replace" }} ] }}}';
+
+### 14. Support Predictive Search
+
+- #### Examples
+
+  - When the user types 'Ber',  complete the value to 'Berlin' or 'Berry'.
+
+- #### Search Index Type
+
+  - predictive-search
+
+- #### Fabric Implementation Guidelines
+
+  - Add a [predictive-search](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+
+- #### Elasticsearch Method
+
+  - bool + query_string + fuzziness
+  - Note that a fuzzy search supports up to two mistakes.
+
+- #### Search Examples
+
+  - Date fields:
+    - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["DATE1"], "query" : "2018", "fuzziness": "1"}},{"query_string": { "fields": ["DATE1"], "query" : "09", "fuzziness": "1"}}]}}}';
+  - Text fields:
+    - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["ADDRESS"], "query" : "Washington", "fuzziness": "1"}},{"query_string": { "fields": ["ADDRESS"], "query" : "R*", "fuzziness": "1"}}]}}}';
+
+### 15. Match a Different Order of Words in a Field
+
+- #### Examples
+
+  - Chris Michael = Michael Chris
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Elasticsearch Method
+
+  - match_phrase + slop
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : {"FULL_NAME": {"query": "Chris Michael", "slop": 2 }}}}';
+
+### 16. Check Date Range
+
+- #### Examples
+
+  - Search date fields when the date is between 1-Jan-20 to 1-Sep-20.
+
+- #### Search Index Type
+
+  - keyword
+
+- #### Elasticsearch Method
+
+  - range
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"range" : {"DATE1.date" : { "gt" : "2020-01-01", "lte" : "2020-09-01"}}}}';
+
+### 17. Check Date Value
+
+- #### Examples
+
+  - 2003-03-04 00:05:30 = 2003/03/04 00:05:30 = 2003-MAR-04 00:05:30
+  - 2019-01-20 = 20-JAN-2019 = 2019/01/20
+
+- #### Search Index Type
+
+  - date
+
+- #### Elasticsearch Method
+
+  - query_string
+
+- #### Search Example
+
+  - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"query_string": { "fields": ["DATE1.date"], "query": "2018-08-02"}}}';
+
+### 18. Check Empty String or Null Values
+
+- #### Examples
+
+  - Tali = ""
+  - ID number = 156646767 and (birth date = '2000-01-01' or birth date is null)
+
+- #### Search Index Type
+
+  - keyword/date
+  - Note that empty String is kept as a null value in the Elasticsearch.
+
+- #### Elasticsearch Method
+
+  - bool + should + must_not + exist
+
+- #### Search Examples
+
+  - Date field:
+    - search lutype=CUSTOMER_ES tables=VISITS '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "VISIT_DATE"}}}}, {"match": {"VISIT_DATE.date": {"query": "2008-02-29"}}}]}}}';
+  - Keyword field:
+    - search lutype=CUSTOMER_ES tables=CUSTOMER '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "CITY"}}}}, {"match": {"CITY": {"query": "JERUSALEM", "fuzziness": "2"}}}]}}}';
 
 
 
-====================
-
-<table width="900pxl">
-<tbody>
-<tr>
-<td valign="top" width="100pxl"><strong>Use Case</strong></td>
-<td valign="top" width="100pxl"><strong>Example</strong></td>
-<td valign="top" width="100pxl"><strong>Search Index Type</strong></td>
-<td valign="top" width="200pxl"><strong>Implementation Guidelines</strong></td>
-<td valign="top" width="100pxl"><strong>ES method</strong></td>
-<td valign="top" width="300pxl"><strong>Search Example</strong></td>
-</tr>
-      <tr>
-<td valign="top" width="100pxl">Pattern Matching</td>
-<td valign="top" width="100pxl">Tal* = Tali</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="200pxl">&nbsp;</td>
-<td valign="top" width="100pxl">query_string</td>
-<td valign="top" width="300pxl">
-<ul>
-<li>Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }</li>
-</ul>
-</td>
-</tr>
-    <td valign="top" width="100pxl">Identical values- case sensitive check</td>
-<td valign="top" width="100pxl">Tali = Tali</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="200pxl">&nbsp;</td>
-<td valign="top" width="100pxl">match/match_phrase</td>
-<td valign="top" width="300pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "FULL_NAME": {"query" : "Waneta Hensley"}}}}';</li>
-</ul>
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL.keyword": {"query" : "tali.einhorn@k2view.com"}}}}';</li>
-</ul>
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "CUSTOMER_ID": {"query" : "20"}}}}';</li>
-</ul>
-</td>
-</tr>
-    <td valign="top" width="100pxl">Identical values including special characters- case insensitive check</td>
-<td valign="top" width="150pxl">Tali = tali = TALI&nbsp;</td>
-<td valign="top" width="100pxl">case-insensitive-match</td>
-<td valign="top" width="200pxl">Add <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">match</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": { "match": { "FIRST_NAME": "chris" }}}</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Fuzzy search, ignore spelling errors.</td>
-<td valign="top" width="150pxl">
-<ul>
-    <li>Ludwigshafern = Ludwigshafen</li>
-	<li>12345=12346 =1234</li>
-</ul>    
- </td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="200pxl">&nbsp;</td>
-<td valign="top" width="100pxl">
-<p>query + match + fuzziness<p/>
-<p>You need to define the fuzziness parameter, i.e. how many mistakes are allowed</p>
-</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {&nbsp; &nbsp;"match" : {"CITY": {&nbsp;"query": "Ludwigshafern",&nbsp;&nbsp;"fuzziness": "2" }&nbsp;}}}</li>
-<li>Notes:
-<ul>
-<li>The fuziness parameter indicates how many mistakes are allowed (missing, extra, oe incorrect&nbsp; character).</li>
-<li>A swap of two adjacent characters- for example: 'Tali' and 'Tail'- is considered as one error.</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Fuzzy search- mail</td>
-<td valign="top" width="150pxl">tali.einhorn@k2view.com = TALI.EINHORN@k2view.com = tali.einhon@k2view.com<br /> <br /> tali.einhorn@k2view.com != tali.einhorn@yahoo.com</td>
-<td valign="top" width="100pxl">case-insensitive-match</td>
-<td valign="top" width="200pxl">
-    <p> Add a <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive searches on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches "tali@gmail.com" to "tali.k2view.com". </p></td>
-<td valign="top" width="100pxl">match + fuzziness</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "MAIL": {"query" : "tali.einhon@k2view.com", "fuzziness": "1"}}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Partial match- ignore additional information</td>
-<td valign="top" width="150pxl">Frankfurt/Main' matches&nbsp; 'Frankfurt am Main'<br /> 'Charlottenburg bei Berlin' matches 'Berlin-Charlottenburg, F&uuml;rth/Bay'</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="200pxl">Works for text fields only. If the field is defined as Integer in the implementation, the search does not work.</td>
-<td valign="top" width="100pxl">Options:<br /> 1. match_phrase + slop. The value of the slop defines the number of words that can be located between the words of the search. The default of the slop is zero.<br /> 2 .match for each one of the required words <br /> Note- unlike the match- the match_phrase does not support using fuzziness. To use fuzziness- we need to run search with several match commands- one for each word + fuzziness</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : { "ADDRESS": {"query" : "Washington Rd", "slop": "2"}}}}';</li>
-</ul>
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "ADDRESS": {"query" : "Washington", "fuzziness": "1"}}},{"match" : { "ADDRESS": {"query" : "Rd", "fuzziness": "1"}}}]}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Ignore leading or trailing blanks</td>
-<td valign="top" width="150pxl">1234 ' = ' 1234' = ' 1234 '</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="200pxl">
-    <p>Works for Text fields only.</p></td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Waneta"}}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Transposed digits- partial match- at least x characters must exist. At least y% of them must have the right order</td>
-<td valign="top" width="150pxl">At least 4 digits must exist and at least 50% of them must be in the right order-<br /> '1243'/ '56347712'/'654331234' match '1234'.<br /> '7777712' and '8751883724' do not match '1234'&nbsp; <br /> 123456=1246= 9230056=1243</td>
-<td valign="top" width="100pxl">precision-match-20</td>
-<td valign="top" width="200pxl">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">bool + must</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{ "must":[{"match":{"ACCOUNT_NUMBER.1gram":{ "query":"123456",&nbsp;"minimum_should_match":4}}},{"match":{"ACCOUNT_NUMBER.2gram":{"query":"123456","minimum_should_match":1 }}} ]}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="100pxl">Transposed digits- partial match- at least x characters must exist. At least y% of them must have the right order</td>
-<td valign="top" width="150pxl">At least 6 digits must exist and at least 3 of them must be in the right order-<br /> '1243'/ '56347712'/'654331234' match '1234'.<br /> '7777712' and '8751883724' do not match '1234'&nbsp;&nbsp;</td>
-<td valign="top" width="100pxl">precision-match-20</td>
-<td valign="top" width="200pxl">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">bool + must</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=ACCOUNT tables=ACCOUNT '{"query":{"bool":{"must":[ {"match":{"ACCOUNT_NUMBER.1gram":{"query":"86422233", "minimum_should_match":6 }}}, {"match":{"ACCOUNT_NUMBER.3gram":{"query":"86422233", "minimum_should_match":1&nbsp;}}} ] }}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl">
-    <p>At least 4 digits exist in the searched field, but the searched field must not have more than two additional digits o letters.</p></td>
-<td valign="top" width="150pxl">
-    <ul>
-        <li>'123456'= '1234'= '1234 AB'= '3456' = '345699'</li>
-        <li>'123456' != '1234567' != '3456890' != '34599'</li>
-    </ul>
-   </td>
-<td valign="top" width="100pxl">precision-match-20</td>
-<td valign="top" width="200pxl">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">
-    <p>bool + musy + fuzzy</p>
-    <p>Note that a fuzzy search supports up to two errors.</p></td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=ACCOUNT tables=ACCOUNT '{ "query":{ "bool":{"must":[{ "match":{"ACCOUNT_NUMBER.1gram":{"query":"123456", "minimum_should_match":4}}}, { "fuzzy":{"ACCOUNT_NUMBER":{"value":"123456", "fuzziness":"2", transpositions":false }}} ] }}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl"><p>
-    At least 6 digits exist in the searched field, but the seached field must not have more than two missing digits or letters.</p></td>
-<td valign="top" width="150pxl">&gt; '12345678'= '123456' = '345679'<br /> &gt; '123456890' = '12345688'<br /> &gt; '12345678' != '12345000'<br /> &gt; '876543212' != '876543'</td>
-<td>precision-match-20</td>
-<td valign="top" width="100pxl">Add <strong>precision-match-20</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">bool + should + fuzzy</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=ACCOUNT tables=ACCOUNT '{ "query":{"bool":{"should":[ { "match":{ "ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":6 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":7 }}} {"match":{"ACCOUNT_NUMBER.1gram":{"query":"12345678", "minimum_should_match":8}}}{"fuzzy":{"ACCOUNT_NUMBER":{"value":"12345678", "fuzziness":"2", "transpositions":false }}} ] }}}';</li>
-</ul>
-<p>&nbsp;</p>
-</td>
-</tr>
-<tr>
-<td>Only one digits is different in the searched field</td>
-<td valign="top" width="150pxl">Searched value: '12345'-<br /> Return the following values: '12346', '15345'<br /> Do not return '12366'</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">query + fuzzy</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"fuzzy" : {"ZIP": {"value": "70451", "fuzziness": 1, "transpositions": false }}}}';</li>
-</ul>
-<ul>
-<li>search&nbsp;lutype=CUSTOMER tables=CUSTOMER '{"query": { "fuzzy" : { "NAME": { "value": "Tali", "fuzziness": 1, "transpositions": false } } }}';</li>
-<li>Note that when the transposition parameter is set to false, two adjacent characters are considered as two mistakes. By default- this parameter is set to true.</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>Check several fields for match</td>
-<td valign="top" width="150pxl">&gt; Check name + location<br /> &gt; NAME = 'EINHORN' and GIVEN_NAME = 'TALI' and BIRTH_DATE is null and POSTAL_CODE = '63462'<br /> &gt; Check Register_type + register_number+ register_city + location&nbsp;</td>
-<td valign="top" width="100pxl">keyword/date</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">boolean match- bool + match or bool + query_string</td>
-<td valign="top" width="100pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"match" : { "FIRST_NAME": {"query" : "Marget", "fuzziness": "1"}}},{"match" : {"LAST_NAME":&nbsp; {"query" : "Lane", "fuzziness": "1"}}}, {"match": {"CITY": {"query" : "ROSCO", "fuzziness": "1"}}}, {"match": {"DATE1.date": {"query" : "2018-09-14"}}}]}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>Support special characters- case insensitive</td>
-<td valign="top" width="150pxl">David&amp;co = david&amp;co = davi@Co</td>
-<td valign="top" width="100pxl">case-insensitive-match</td>
-<td valign="top" width="100pxl">Add <strong>case-insensitive-match</strong> template to the search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches "David" to "David@Co".</td>
-<td valign="top" width="100pxl">match</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Davi&amp;co", "fuzziness": "1"}}}}';</li>
-</ul>
-</td>
-</tr>
-<td>Support scoring for matching</td>
-<td valign="top" width="150pxl">Full match: 'Ludwigshafern' = 'Ludwigshafern' =&gt; gets scoring of 1<br /> Ignore spelling errors or additional information: 'Ludwigshafern' = 'Ludwigshafen', 'Charlottenburg bei Berlin' = 'Berlin-Charlottenburg' =&gt; gets scoring of 0.85 <br /> Partial match: "1234 AB" =&nbsp; "1234" = "123456"&nbsp; =&gt; gets scoring of 0.9&nbsp;</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query":{"dis_max":{"queries":[ {"function_score":{"query":{"match":{"MAIL":"SyhKHckZ@gmail.com"}},"script_score":{"script":{"source":"0.9"}}, "score_mode":"max","boost_mode":"replace"}},{"function_score":{ "query":{ "match":{"MAIL":"SyhKHckZ@gmail.com"}}, "script_score":{ "script":{ "source":"1"}}, "score_mode":"max", "boost_mode":"replace"}}, {"function_score":{"query":{"match":{"MAIL":{"query": "SyhKHckZ@gmail.com", "fuzziness": 2}}}, "script_score":{"script":{"source":"0.85" }}, "score_mode":"max", "boost_mode":"replace" }} ] }}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl">Support predictive search</td>
-<td valign="top" width="150pxl">When the user types 'Ber' =&gt; complete the value to 'Berlin'</td>
-<td valign="top" width="100pxl">predictive-search</td>
-<td valign="top" width="100pxl">Add <strong>predictive-search</strong> template to the search options in the .k2proj file and select it as the type for the search field</td>
-<td valign="top" width="100pxl">bool + query_string</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>Date fields:
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["DATE1"], "query" : "2018", "fuzziness": "1"}},{"query_string": { "fields": ["DATE1"], "query" : "09", "fuzziness": "1"}}]}}}';</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>Text fields:
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"query_string": { "fields": ["ADDRESS"], "query" : "Washington", "fuzziness": "1"}},{"query_string": { "fields": ["ADDRESS"], "query" : "R*", "fuzziness": "1"}}]}}}';</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl">Match multiple fields if they have crossed values. For example, the name and given name are populated in different fields</td>
-<td valign="top" width="150pxl">
-    <ul>
-        <li>NAME = 'Tali', FAMILY_NAME = "Einhorn"</li>
-        <li>NAME = 'Einhorn', FAMILY_NAME = 'Tali'</li>        
-    </ul>
-</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">
-    <p>bool + must + multi_match.</p>
-    <p>Note: the difference between should and must: must- all conditions must match. Should- you can set a parameter - minimum_should_match- how many conditions needs to match</p>
-</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{ "multi_match": { "query": "Tali", "fields": ["NAME", "FAMILY_NAME"] } },<br /> { "multi_match": { "query": "Einhorn", "fields": ["NAME", "FAMILY_NAME"] } } ] }}}';</li>
-</ul>
-<p>&nbsp;</p>
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"multi_match": {"query": "Cris", "fields": ["FIRST_NAME", "LAST_NAME"]}}, {"multi_match": {"query": "Michael", "fields": ["FIRST_NAME", "LAST_NAME"]}}]}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl">Match a different order of words within a field</td>
-<td valign="top" width="150pxl">Tali Einhorn'= 'Einhorn Tali'</td>
-<td valign="top" width="100pxl">Keyword</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">match_phrase</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match_phrase" : {"FULL_NAME": {"query": "Cris Michael", "slop": 2 }}}}';</li>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": { "match_phrase" : { "fullname": { "query": "Einhorn Tali", "slop": 2 }}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td valign="top" width="200pxl">Check date ranges</td>
-<td valign="top" width="150pxl"><p>
-    The date is between 2019-01-01 to 2019-02-01.</p></td>
-<td valign="top" width="100pxl">date</td>
-<td valign="top" width="200pxl"><p>
-    <ul>        
-        <li>The date field must be kept in Fabric with a format, supported by the Elasticsearch. For example: 'YYYY-MM-DD'.</li>
-        <li>See the list of date formats in the Elasticsearch web site.</li>
-    </ul>
-  </td>
-<td valign="top" width="100pxl">range</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"range" : {"DATE1.date" : { "gt" : "2018-07-02", "lte" : "2018-08-07"}}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>Check date values- check for equal dates</td>
-<td valign="top" width="150pxl">2003-03-04 00:05:30' = '2003-03-04 00:05:30' = '2003/03/04 00:05:30' = '2003-MAR-04 00:05:30'<br /> '2019-01-20' = '20-JAN-2019' = '2019/01/20'</td>
-<td valign="top" width="100pxl">date</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">query_string</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"query_string": { "fields": ["DATE1.date"], "query": "2018-08-02"}}}';</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>Check for empty string</td>
-<td valign="top" width="150pxl">"Tali" = ""</td>
-<td valign="top" width="100pxl">keyword</td>
-<td valign="top" width="100pxl">Empty String are kept as null values in the ES</td>
-<td valign="top" width="100pxl">bool + should + must_not + exist</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>Date field:
-<ul>
-<li>search lutype=CUSTOMER_ES tables=VISITS '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "VISIT_DATE"}}}}, {"match": {"VISIT_DATE.date": {"query": "2008-02-29"}}}]}}}';</li>
-</ul>
-</li>
-</ul>
-<p>&nbsp;</p>
-<ul>
-<li>Keyword field:
-<ul>
-<li>search lutype=CUSTOMER_ES tables=CUSTOMER '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "CITY"}}}}, {"match": {"CITY": {"query": "BABIT", "fuzziness": "2"}}}]}}}';</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>Check for null values</td>
-<td valign="top" width="150pxl">birth_date may be empty for some of the customer and populated for others. Do we need to avoid including the birth_Date in the search if its value is null?</td>
-<td valign="top" width="100pxl">keyword/date</td>
-<td valign="top" width="100pxl">&nbsp;</td>
-<td valign="top" width="100pxl">bool + should + must_not + exist</td>
-<td valign="top" width="450pxl">
-<ul>
-<li>Date field:
-<ul>
-<li>search lutype=CUSTOMER_ES tables=VISITS '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "VISIT_DATE"}}}}, {"match": {"VISIT_DATE.date": {"query": "2008-02-29"}}}]}}}';</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>keyword field:
-<ul>
-<li>search lutype=CUSTOMER_ES tables=CUSTOMER '{"query": {"bool": {"should": [{"bool": {"must_not": {"exists": {"field": "CITY"}}}}, {"match": {"CITY": {"query": "BABIT", "fuzziness": "2"}}}]}}}';</li>
-</ul>
-</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 
 
 
