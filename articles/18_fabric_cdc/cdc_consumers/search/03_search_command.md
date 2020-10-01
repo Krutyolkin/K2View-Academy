@@ -35,8 +35,15 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 <td valign="top" width="100">query_string</td>
 <td valign="top" width="300">
 <p>Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }</p>
-
 </td>
+</tr>
+    <td valign="top" width="100">Identical values- case sensitive check</td>
+<td valign="top" width="100">Tali = Tali</td>
+<td valign="top" width="100">Keyword</td>
+<td valign="top" width="200">&nbsp;</td>
+<td valign="top" width="100">match/match_phrase</td>
+<td valign="top" width="300">
+ </td>
 </tr>
     <td valign="top" width="100">Identical values- case sensitive check</td>
 <td valign="top" width="100">Tali = Tali</td>
@@ -228,7 +235,6 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 </td>
 <td valign="top" width="300">
 <p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{ "multi_match": { "query": "Tali", "fields": ["NAME", "FAMILY_NAME"] } },<br /> { "multi_match": { "query": "Einhorn", "fields": ["NAME", "FAMILY_NAME"] } } ] }}}';</p>
-
 <p>&nbsp;</p>
 <p>search lutype=CUSTOMER tables=CUSTOMER '{"query": {"bool": {"must": [{"multi_match": {"query": "Cris", "fields": ["FIRST_NAME", "LAST_NAME"]}}, {"multi_match": {"query": "Michael", "fields": ["FIRST_NAME", "LAST_NAME"]}}]}}}';</p>
 </td>
@@ -299,10 +305,12 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 </td>
 </tr>
 </tbody>
-</table>
+</table>   
+
 
 
 ====================
+
 <table width="900pxl">
 <tbody>
 <tr>
