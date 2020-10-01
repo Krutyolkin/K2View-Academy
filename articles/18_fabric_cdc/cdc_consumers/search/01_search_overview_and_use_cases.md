@@ -1,6 +1,6 @@
 # Search Overview and Use Cases
 
-Fabric CDC solution has a built-in integration with Elasticsearch to enable a cross-instance search. 
+Fabric CDC solution has a built-in integration with Elasticsearch to enable a cross-instance search.  Note that it requires an installation of Elasticsearch.
 
 For example, search all customers named “John Doe” and live in “New-York”.
 
