@@ -49,9 +49,9 @@ Create a new Interface. Set the **Interface Type** to **Kafka**.  Populate **Boo
 
 Define a Broadway flow. Add the **Subscribe** built-in actor. Set the input parameters of the Subscribe actor as follows:
 
-- Populate the interface by the Kafka interface, added to the Fabric project.
+-Set the interface by the Kafka interface, added to the Fabric project.
 
-- Populate the topic by the CDC consumer name (CDCBroadway in the example above), since the topic name of each CDC consumer is identical to the CDC consumer name.
+- Set the topic by the CDC consumer name (CDCBroadway in the example above), since the topic name of each CDC consumer is identical to the CDC consumer name.
 
   [Click for examples of Pub/Sub Broadway flows](/articles/19_Broadway/actors/04_queue_actors.md#pub--sub-examples).
 
