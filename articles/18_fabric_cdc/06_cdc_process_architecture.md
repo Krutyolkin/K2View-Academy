@@ -6,6 +6,9 @@ The following diagram describes the CDC process:
 
 ![CDC flow](images/cdc_data_flow_diagram.png)
 
+[to fix the diagram- replace cdc collector by cdc message.
+Add CDC consumer]
+
 ### MicroDB Update
 
 A transaction on the LUI may involve several updates on several LU tales of the LUI. Each update (write) of the MicroDB SQLite file of the LUI, activates SQLite triggers that send the changes to the **CDC Collector**. The CDC Collector publishes a message to Kafka for each insert, update, or delete events on the MicroDB.  Each message has the LUI (iid), the event type, old and new values of each CDC column, PK columns of the LU table, and transaction id.
@@ -14,7 +17,7 @@ If the transaction is committed, a **Commit message** will be sent by the **CDC 
 
 If the transaction is interrupted, rollbacked,  or failed, a **Rollback message** will by sent by the **CDC Collector**. 
 
-### CDC Collector
+### CDC Message
 
 The CDC Collector publishes transaction messages to **Kafka**  for each UPDATE, INSERT, or DELETE activity. Kafka has one topic- CDC_TOPIC - to keep the transaction messages. The partition key is the LUI (iid).
 
