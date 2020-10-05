@@ -4,9 +4,9 @@ Fabric CDC solution has a built-in integration with Elasticsearch to enable a cr
 
 For example, search all customers named “John Doe” and live in “New-York”.
 
-The search is done on LUIs if the LU has [Search indexes]().
+The search is done on LUIs if the LU has [Search fields](02_search_implementation.md#creating-search-fields).
 
-The deploy of the LU creates indexes in the Elasticsearch, and every data change on the LUIs updates the data in the Elasticsearch for the predefined Search indexes.
+The deploy of the LU creates indexes in the Elasticsearch, and every data change on the LUIs updates the data in the Elasticsearch for the predefined Search fields.
 
 Therefore the LUIs must be loaded to Fabric to enable a cross instance search on them. For example, the search of all customers named “John Doe” and live in “New-York” will only return customers that exist in Fabric.
 
@@ -26,7 +26,7 @@ The search can be executed either by running Search request directly on the Elas
 
    - Example: when the user types "Ber",  complete the value to "Berlin" or "Berry".
 
-   [Click here for more information about Search examples].
+   [Click here for more information about Search examples](05_search_command.md#search-command--examples).
 
    
 

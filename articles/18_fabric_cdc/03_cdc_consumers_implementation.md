@@ -69,4 +69,4 @@ A specific CDC message is generated for each type of change in the CDC column.
 
 
 
-[![Previous](/articles/images/Previous.png)](03_cdc_implementation_steps.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_cdc_publication_flow.md)
+[![Previous](/articles/images/Previous.png)](02_cdc_messages)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](04_cdc_publication_flow.md)
