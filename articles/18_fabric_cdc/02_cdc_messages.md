@@ -395,7 +395,7 @@ To view the list of Fabric APIs, click http://[Fabric IP address]:3213/static/do
 
  
 
-### Appendix D: CDC Table Change Info Message- Example
+### Appendix D: CDC Table Change Info Message - Example
 
 #### Data Change
 
