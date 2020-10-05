@@ -2,13 +2,14 @@
 
 ## Adding CDC Consumers
 
-Fabric has a built-in integration with the Elasticsearch. However, it is possible to send CDC changes to other consumers as well. 
+Fabric has built-in integration with Elasticsearch and can also send CDC changes to other consumers. 
 
-You can customize Fabric Studio and add consumers for the CDC fields by editing the [project name].k2proj field of your Fabric project:
+The Fabric Studio can be customized. Consumers can be added for CDC fields by editing the [project name].k2proj field of a Fabric project:
 
-1.  Right-click the project name and select the ‘**Open Folder**’ option.
 
-2. Open the [project name].k2proj file for editing.
+1.  Right click the project name and select **Open Folder**.
+
+2. Open the [project name].k2proj file to be edited.
 
 3. Edit the **DataChangeIndicators** tag by adding the **DataChange** tag. By default, the **DataChangeIndicators** contains the **Search** consumer.  Set the consumer name in the **name** and set the index types of the CDC columns in the **Options** tag.  See the example below:
 
@@ -30,21 +31,21 @@ You can customize Fabric Studio and add consumers for the CDC fields by editing 
      </DataChangeIndicators>
    ```
    
-   Note that you cannot use the **Search** name for additional data change consumer. This name is reserved for the **ElasticSearch**. 
+   Note that the **Search** name cannot be used for additional data change consumers since it is reserved for **ElasticSearch**. 
    
    
    
 4. Save and close the .k2proj file.
 
-5. Close and reopen your project to reload the changes of the .k2proj file.
+5. Close and reopen your project to reload the changes in the .k2proj file.
 
-6. Open the required LU table as a new tab, added for data change.  A new tab is added for the CDC consumer defined in the .k2proj file: 
+6. Open the required LU table as a new tab added for the data change. A new tab is added for the CDC consumer defined in the .k2proj file: 
 
    ![cdc_consumers](images/cdc_consumers_tabs.png)
 
    
 
-   The name of the Kafka topic, added for the new CDC consumer, is identical to the name of the new tab. 
+   The name of the Kafka topic added for the new CDC consumer is identical to the name of the new tab. 
 
     
 
