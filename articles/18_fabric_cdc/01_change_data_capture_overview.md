@@ -25,8 +25,6 @@ The LUs having CDC indexes must be deployed to Fabric to publish the CDC columns
 
 
 
-
-
 [<img align="right" width="60" height="54" src="/articles/images/Next.png">](02_cdc_messages.md)
 
 
