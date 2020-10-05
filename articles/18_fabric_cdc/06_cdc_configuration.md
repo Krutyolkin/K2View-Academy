@@ -183,4 +183,4 @@ Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configu
 
 
 
-[![Previous](/articles/images/Previous.png)](06_cdc_process_architecture.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](07_cdc_configuration.md)
+[![Previous](/articles/images/Previous.png)](05_cdc_process_architecture.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](07_cdc_configuration.md)
