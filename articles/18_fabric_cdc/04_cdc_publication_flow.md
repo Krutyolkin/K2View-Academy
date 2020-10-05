@@ -2,9 +2,9 @@
 
 Fabric [CDC messages](02_cdc_messages.md) can be classified into two main categories:
 
-- Schema update - initiated by updates on the LU level.
+- Schema update - initiated by updates on the LU level or by a CDC_REPUBLISH_SCHEMA command.
 
-- Data update - initiated by updated on a given LUI.
+- Data update - initiated by updates on a given LUI or by a CDC_REPUBLISH_INSTANCE.
 
   
 
