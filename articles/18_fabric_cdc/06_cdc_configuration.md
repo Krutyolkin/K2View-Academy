@@ -129,7 +129,6 @@ Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configu
 <p>SSL connection parameters when connecting the Kafka servers.</p>
 </td>
 <td width="450pxl" valign="top" >
-<p>To check with Mhanna- does it require a definition of SSL in the Kafka interface??</p>
 </td>
 </tr>
 <tr>
@@ -168,7 +167,6 @@ Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configu
 <p>SSL connection parameters when connecting the Kafka servers.</p>
 </td>
 <td width="400pxl" valign="top" >
-<p>To check with Mhanna- does it require a definition of SSL in the Kafka interface??</p>
 </td>
 </tr>    
 <td valign="top" width="200pxl">
