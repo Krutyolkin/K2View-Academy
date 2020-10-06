@@ -8,7 +8,7 @@ Fabric [CDC messages](02_cdc_messages.md) can be classified into two main catego
 
   
 
-The diagram below describes the list of events that trigger CDC messages:
+The following diagram describes a list of events that trigger CDC messages:
 
 ![CDC events](images/cdc_events.png)
 
@@ -16,9 +16,9 @@ The diagram below describes the list of events that trigger CDC messages:
 
 ### CDC_REPUBLISH_SCHEMA
 
-Republish a full schema definition of the LU by by demand.
+Republish a full schema definition of the LU by demand.
 
-It is possible to republish the LU schema to all CDC consumers or to a selected list of CDC consumers.
+An LU schema can be republished to all CDC consumers or to a selected list of CDC consumers.
 
 **Examples:**
 
@@ -31,15 +31,15 @@ It is possible to republish the LU schema to all CDC consumers or to a selected 
 
 ### Update and Redeploy LU
 
-- When updating the CDC metadata, i.e. adding, updating, or deleting CDC columns on LU tables, the LU must be redeployed to Fabric. The deployment initiates a republish of the LU schema changes and the LUI data behind the scenes:
+- When updating CDC metadata, i.e. adding, updating, or deleting CDC columns in LU tables, the LU must be redeployed to Fabric. The deployment initiates the republishment of the  changes both in the LU schema and background LUI data:
   - Sending [CDC Schema](18_cdc_and_search/02_cdc_messages.md#cdc-schema) message.
   - Initiating a [batch process](/articles/20_jobs_and_batch_services/16_batch_CDC_commands.md) to run CDC_REPUBLISH_INSTANCE command on all LUIs of the deployed LU.
 
-- Note that if a new LU table with CDC columns is added to the LU schema, the deploy of the updated LU republishes the metadata of the new LU table. However, the data of the new LU Table cannot be republished to the CDC consumers, because it is not synced with Fabric yet. In this case it is recommended to re-migrate all LUIs to enable the population of the new LU table in Fabric and enable Fabric republishing the data of the new LU table to the CDC consumers. For example- re-migrate all LUIs of the **Customer** LU:
+Note that if a new LU table with CDC columns is added to the LU schema, deployment of the updated LU republishes the metadata of the new LU table. However, the data of the new LU table cannot be republished to CDC consumers, since it has not been synced with Fabric. In this scenario it is recommended to remigrate all LUIs to enable the population of the new LU table in Fabric and to enable Fabric to republish the data of the new LU table to CDC consumers. For example, to remigrate all **Customer** LU LUIs:
 
-  - batch Customer from fabric fabric_command='sync_instance Customer.?';
+  - Batch Customer from fabric fabric_command='sync_instance Customer.?';
 
-  [Click for more information about the Batch commands](/articles/20_jobs_and_batch_services/12_batch_sync_commands.md).
+  [Click for more information about Batch commands](/articles/20_jobs_and_batch_services/12_batch_sync_commands.md).
 
   
 
