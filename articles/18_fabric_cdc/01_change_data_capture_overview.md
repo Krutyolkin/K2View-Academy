@@ -2,7 +2,7 @@
 
 Fabric's Change Data Capture (CDC) solution notifies external systems about data changes published via Kafka and also offers cross-instance Search capabilities through its built-in integration with Elasticsearch.
 
-The following HL flow describes the CDC flow and the population of the CDC data in consumers:
+The following HL flow describes the CDC flow and the population of CDC data in consumers:
 
 ![CDC HL Flow](images/cdc_hl_flow.png)
 
@@ -12,11 +12,11 @@ The following HL flow describes the CDC flow and the population of the CDC data 
 
 - The Fabric CDC_TRANSACTION_PUBLISHER job publishes CDC changes to Kafka. Each CDC consumer has its own Kafka topic.
 
-- The Fabric CDC_TRANSACTION_CONSUMER job consumes the Search topic from Kafka and updates the Elasticsearch. Other consumers must create their own consumer processes to consume their Kafka CDC messages. 
+- The Fabric CDC_TRANSACTION_CONSUMER job consumes the Search topic from Kafka and updates Elasticsearch. Other consumers must create their own consumer processes to consume Kafka CDC messages. 
 
 Note that publication of CDC changes requires a [predefined implementation](03_cdc_implementation_steps.md) in the Fabric Studio. When defining an LU in the Fabric Studio, selected LU tables columns can be set to publish CDC messages each time they are updated. 
 
-To publish the CDC columns to CDC consumers, LUs with CDC indexes must be deployed to Fabric:
+To publish CDC columns to CDC consumers, LUs with CDC indexes must be deployed to Fabric:
 
 - When the LU is deployed to Fabric for the first time, a [CDC Schema](02_cdc_messages.md#cdc-schema) message is published to Kafka to create the CDC indexes in the CDC consumers.
 - When the LU is redeployed to Fabric, a [CDC Schema Update](02_cdc_messages.md#cdc-schema-update) message is published to Kafka about the schema's updates in the affected CDC LU tables.
