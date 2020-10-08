@@ -1,6 +1,6 @@
 # Search Command
 
-The **SEARCH** command runs a search on the Elasticsearch for specific LU tables and columns and returns a result set with the search results.
+The **SEARCH** command runs a search on Elasticsearch for specific LU tables and columns and returns a result set with the search results.
 
 #### Usage: 
 
@@ -8,20 +8,20 @@ The **SEARCH** command runs a search on the Elasticsearch for specific LU tables
 SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';   
 ```
 
-- The TABLES parameter can be populated by one or several LU tables, separated a comma. It is possible to include several LU tables in one search only if these tables have the same list of search fields (search indexes).       
+- The TABLES parameter can be populated by one or several LU tables, separated by a comma. Several LU tables can be included in a search only if they have the same list of Search fields (search indexes).       
 - The **Search Query** parameter is populated by a JSON with Elasticsearch query.
 - The **SEARCH** command returns the records that match the search query. The following information is displayed for each record:
-  - The LUI of each record.
-  - The list of Search fields, defined in the specified LU table.
-  - The score returned by the Elasticsearch.
+  - LUI of each record.
+  - List of Search fields, defined in the specified LU table.
+  - Score returned by Elasticsearch.
 
-## Search Command- Examples
+## Search Command - Examples
 
 The following table contains examples of SEARCH commands for common use cases. 
 
-Note that the SEARCH command can run any search query, supposed by the Elasticsearch.
+Note that the SEARCH command can run any search query, supposed by Elasticsearch.
 
-- You can view the full list of search queries, supported by the Elasticsearch in the Elasticsearch web site: 
+- To see the full list of search queries supported by the Elasticsearch in the Elasticsearch website: 
 
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html 
 
@@ -42,7 +42,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 - #### Search Example
   - Search lutype=CUSTOMER table=CUSTOMER '{ "query": { "query_string": { "fields": ["FIRST_NAME"], "query": "Tal*" } } }';
 
-### 2. Identical values,  Case Sensitive Check
+### 2. Identical Values, Case Sensitive Check
 
 - #### Example
 
@@ -75,7 +75,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [case-insensitive-match](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+  - Add a [case-insensitive-match](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive searches on the full mail address. By default (text) - the @ and . chars split the tokens. Therefore, when using the default setting, the search command matches tali@gmail.com to tali@k2view.com.
 
 - #### Elasticsearch Method
   - match
@@ -112,9 +112,9 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
   - The **fuzziness** parameter defines the number of mistakes (typos) allowed. This parameter can support up to two mistakes.
 
-  - By default, a swap of two adjacent characters (Orange vs. Ornage) is considered as one error by the **fuzziness** parameter. However, if you add the **transpositions** parameter to the search query and set it to **false**, the swap of two characters is considered as two mistakes.
+  - By default, a swap of two adjacent characters (Orange vs. Ornage) is considered as an error by the **fuzziness** parameter. However, if you add the **transpositions** parameter to the search query and set it to **false**, the swap of two characters is considered as two mistakes.
 
-    Note that when the transposition parameter is set to false, two adjacent characters are considered as two mistakes. By default- this parameter is set to true.
+    Note that when the transposition parameter is set to false, two adjacent characters are considered as two mistakes. By default, this parameter is set to true.
 
 ### 5. Fuzzy Search on Special Characters, Case Insensitive Match
 
@@ -130,7 +130,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [case-insensitive-match template](02_search_implementation.md#search-index-types-templates) to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive search on the whole mail address. By default (text) - the @ and . chars split the tokens, so if you use the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+  - Add a [case-insensitive-match template](02_search_implementation.md#search-index-types-templates) to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable a case insensitive search on the full mail address. By default (text), the @ and . chars split the tokens. Therefore, when using  the default setting, the search command matches tali@gmail.com to tali@k2view.com.
 
 - #### Elasticsearch Method
 
@@ -153,13 +153,13 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - This matching rule only works for Text columns. If the LU table's column is set to another data type, this matching rule will not work.
+  - This matching rule only works for Text columns. If the LU table's column is set to another data type, the matching rule will not work.
 
 - #### Elasticsearch Method Options
 
   - **match_phrase + slop**. The value of the **slop** parameter defines the number of words that can be located between the words of the search. The default of the slop is zero.
   - Set **match** method on each one of the required words. 
-  - Note that unlike the **match** method,  the **match_phrase does not support the use of fuzziness**. To use fuzziness, you need to use the **match** option.
+  - Note that unlike the **match** method, the **match_phrase** does not support the use of fuzziness**. To use fuzziness, use the **match** option.
 
 - #### Search Examples
 
@@ -181,7 +181,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - This matching rule only works for Text columns. If the LU table's column is set to another data type, this matching rule will not work.
+  - This matching rule only works for Text columns. If the LU table's column is set to another data type, the matching rule will not work.
 
 - #### Elasticsearch Method
 
