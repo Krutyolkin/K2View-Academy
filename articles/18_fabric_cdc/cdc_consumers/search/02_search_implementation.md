@@ -2,12 +2,13 @@
 
 ## Creating Search Engine Interface 
 
-- The Search Engine interface is required to enable Fabric connection to the Elasticsearch engine when running the search commands.
-- The Search Engine interface is populated  with the connection details of the Elasticsearch engine for your search.
-- To  create a new Search Engine interface:
+The Search Engine is used to connect Fabric to the Elasticsearch engine when running search commands. During a search, the Search Engine's interface is populated with the Elasticsearch engine's connection details.  
+
+
+To  create a new Search Engine interface:
 
 1. Go to **Project Tree** > **Shared Objects**, right click **Interfaces** and select **New Interface**.
-2. Select **Search Engine** from the drop-down menu.
+2. Select **Search Engine** from the dropdown menu.
 3. Populate the connection settings.
 
 ### Search Engine Interface Settings
@@ -27,7 +28,7 @@
 <p>Host(s)</p>
 </td>
 <td valign="top" width="700pxl">
-<p>Comma-delimited list of hosts and ports of the Elasticsearch servers.</p>
+<p>Comma-delimited list of Elasticsearch server hosts and ports.</p>
 </td>
 </tr>
 <tr>
@@ -51,7 +52,7 @@
 <p>SSL</p>
 </td>
 <td valign="top" width="700pxl">
-<p>By default- set to False.</p>
+<p>By default, set to False.</p>
 </td>
 </tr>
 <tr>
@@ -59,7 +60,7 @@
 <p>KeyStore Path</p>
 </td>
 <td valign="top" width="700pxl">
-<p>Key Store path in case SSL is set to True.</p>
+<p>Key store path if SSL is set to True.</p>
 </td>
 </tr>
 <tr>
@@ -67,7 +68,7 @@
 <p>KeyStore Password</p>
 </td>
 <td valign="top" width="700pxl">
-<p>Key Store Password in case SSL is set to True.</p>
+<p>Key store password if SSL is set to True.</p>
 </td>
 </tr>
 <tr>
@@ -75,39 +76,39 @@
 <p>KeyStore Type</p>
 </td>
 <td valign="top" width="700pxl">
-<p>Key Store Type in case SSL is set to True.</p>
+<p>Key store type if SSL is set to True.</p>
 </td>
 </tr>
 </tbody>
 </table>
 
-## Fabric Studio- Defining Search Fields
+## Fabric Studio - Defining Search Fields
 
-It is required to define Search fields on the selected LU tables' columns to enable a cross-instance search based on these columns. For example, to enable a search of all customers called "John Doe", it is required to define FIRST_NAME and LAST_NAME columns of the customer schema as Search Indexes.
+Search fields must be defined on the selected LU table's columns to enable a cross-instance search based on these columns. For example, to enable a search of all customers named "John Doe", define the FIRST_NAME and LAST_NAME columns of the customer schema as search indexes.
 
 To create a Search index on a column, do either: 
 
 - Right click the selected column > **Create Search Index From Selected Columns** > select the index type.
-- Open the **Search** tab populate the **Column Name** and **Type**. 
+- Open the **Search** tab and populate the **Column Name** and **Type**. 
 
-Note that Fabric Studio does not enable defining more than 63 columns of the same LU table as CDC fields, assuming that all columns are positioned according to 1 to 63 in the LU table.
+Note that Fabric Studio does not enable defining more than 63 columns in the same LU table as CDC fields, assuming that all columns are positioned according to 1 to 63 in the LU table.
 
 ### Search Fields Types
 
-The default built-in types of the Search fields are:
+The default built-in types of Search fields are:
 
-- **keyword**, enables a search by this column. Behind the scenes, Fabric creates two Search Indexes for the keyword field: keyword index and additional index based on the type of the field. The keyword index enables performing a search by exact match (case sensitive) to the searched value. 
-- **date**, enables a search on a date column.  Date fields must be populated by a date format, identified by the Elastic Search. See the list of the date formats, supported by the Elastic Search:
+- **keyword**, enables a search by this column. In the background Fabric creates two search indexes for the keyword field, a keyword index and an additional index based on the type of field. The keyword index enables searching for an exact match (case sensitive) of the searched value. 
+- **date**, enables a search on a date column.  Date fields must be populated by a date format and identified by Elasticsearch. Click to see the list of the date formats supported by Elasticsearch:
   * [https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#built-in-date-formats](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#built-in-date-formats)
-- **data**, can be returned by the search, but you cannot initiate a search by this column.
-- [search templates](04_search_templates.md)- Fabric supports adding templates for search fields to support special cases.
+- **data**, can be returned by the search, a search cannot be initiated by this column.
+- [search templates](04_search_templates.md),Fabric supports adding templates for Search fields to support specific cases.
 
 **Example:** 
 
-- Set the Search Indexes of Customer LU as follows:
+- Set the search indexes of the Customer LU as follows:
   - First Name and Last Name are keyword fields.
   - Customer ID is a data field.
-- You can run a search to get the list of all customer IDs called “John Doe”. 
+- Run a search to get the list of all customer IDs called “John Doe”. 
 
 
 
