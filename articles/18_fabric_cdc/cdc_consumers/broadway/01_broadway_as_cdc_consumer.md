@@ -1,6 +1,6 @@
 # Using Broadway as CDC Consumer
 
-Broadway has a queue of[built-in Actors](/articles/19_Broadway/actors/04_queue_actors.md) that manage Pub or Sub asynchronous message handling and can subscribe to Apache Kafka messages. 
+Broadway has a queue of [built-in Actors](/articles/19_Broadway/actors/04_queue_actors.md) that manage Pub or Sub asynchronous message handling and can subscribe to Apache Kafka messages. 
 
 Since Fabric publishes [CDC messages](/articles/18_fabric_cdc/02_cdc_messages.md) to Kafka, a dedicated CDC consumer can be defined in Broadway to subscribe CDC messages in a [Broadway flow](/articles/19_Broadway/02a_broadway_flow_overview.md).
 
