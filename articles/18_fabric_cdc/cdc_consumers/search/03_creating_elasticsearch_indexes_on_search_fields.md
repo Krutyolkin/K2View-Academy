@@ -1,10 +1,10 @@
 # Creating Elasticsearch Indexes on Search Fields
 
-Fabric creates a separate index in the Elasticsearch on each LU table which has Search fields.
+Fabric creates a separate index in  Elasticsearch on each LU table that has Search fields.
 
-The Search indexes are created in the Elasticsearch following a [CDC Schema](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema) message or a [CDC Schema Update](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema-update) message when a Search field is added on a new LU table. 
+Search indexes are created in Elasticsearch following a [CDC Schema](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema) message or a [CDC Schema Update](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema-update) message when a Search field is added on a new LU table. 
 
-Below is the mapping of Fabric LU Search fields and the Elasticsearch indexes:
+The following displays mapping of Fabric LU Search fields and Elasticsearch indexes:
 
 <table width="900pxl">
 <tbody>
@@ -47,7 +47,7 @@ Below is the mapping of Fabric LU Search fields and the Elasticsearch indexes:
 
 ### Example:
 
-- Define Search fields on ADDRESS LU table of Customer LU. Define the following table columns as Search fields:
+- Define Search fields on the ADDRESS LU table of the Customer LU. Define the following table columns as Search fields:
   - STREET
   - CITY
   - STATE
@@ -55,7 +55,7 @@ Below is the mapping of Fabric LU Search fields and the Elasticsearch indexes:
   - ZIP_CODE
 
 - Deploy the Customer LU. 
-- Fabric creates one Elasticsearch index for the ADDRESS LU table. The fields below are set as **Columns** of the index.
+- Fabric creates an Elasticsearch index for the ADDRESS LU table. The fields below are set as the **Columns** of the index.
 - Sync Customer 123 into Fabric. This customer has 3 ADDRESS records.
 - The [CDC Table Change Info](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-table-change-info) message initiates an update of the Elasticsearch index:
   - Save the data of the Search fields on each ADDRESS record of Customer 1. Each ADDRESS record creates a separate document in the Elasticsearch index.
