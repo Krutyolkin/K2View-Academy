@@ -2,7 +2,7 @@
 
 Fabric creates a separate index in  Elasticsearch on each LU table that has Search fields.
 
-Search indexes are created in Elasticsearch following a [CDC Schema](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema) message or a [CDC Schema Update](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema-update) message when a Search field is added on a new LU table. 
+Search indexes are created in Elasticsearch after a [CDC Schema](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema) message or a [CDC Schema Update](/articles/18_fabric_cdc/02_cdc_messages.md#cdc-schema-update) message when a Search field is added on a new LU table. 
 
 The following displays mapping of Fabric LU Search fields and Elasticsearch indexes:
 
@@ -26,7 +26,7 @@ The following displays mapping of Fabric LU Search fields and Elasticsearch inde
     </tr>
     <tr>
         <td width="450pxl" valign="top">
-            <p>Search field (LU table's column)</p>
+            <p>Search field (LU table column)</p>
         </td>
         <td width="450pxl" valign="top">
             <p>Column of the Index</p>
