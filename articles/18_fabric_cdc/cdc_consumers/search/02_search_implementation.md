@@ -1,6 +1,6 @@
 # Search Implementation Steps
 
-## Creating Search Engine Interface 
+## Creating a Search Engine Interface 
 
 The Search Engine is used to connect Fabric to the Elasticsearch engine when running search commands. During a search, the Search Engine's interface is populated with the Elasticsearch engine's connection details.  
 
@@ -86,14 +86,14 @@ To  create a new Search Engine interface:
 
 Search fields must be defined on the selected LU table's columns to enable a cross-instance search based on these columns. For example, to enable a search of all customers named "John Doe", define the FIRST_NAME and LAST_NAME columns of the customer schema as search indexes.
 
-To create a Search index on a column, do either: 
+To create a search index on a column, do either: 
 
 - Right click the selected column > **Create Search Index From Selected Columns** > select the index type.
 - Open the **Search** tab and populate the **Column Name** and **Type**. 
 
 Note that Fabric Studio does not enable defining more than 63 columns in the same LU table as CDC fields, assuming that all columns are positioned according to 1 to 63 in the LU table.
 
-### Search Fields Types
+### Search Field Types
 
 The default built-in types of Search fields are:
 
@@ -101,7 +101,7 @@ The default built-in types of Search fields are:
 - **date**, enables a search on a date column.  Date fields must be populated by a date format and identified by Elasticsearch. Click to see the list of the date formats supported by Elasticsearch:
   * [https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#built-in-date-formats](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#built-in-date-formats)
 - **data**, can be returned by the search, a search cannot be initiated by this column.
-- [search templates](04_search_templates.md),Fabric supports adding templates for Search fields to support specific cases.
+- [search templates](04_search_templates.md), Fabric supports adding templates for Search fields to support specific cases.
 
 **Example:** 
 
