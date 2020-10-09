@@ -1,10 +1,10 @@
 # Using Broadway as CDC Consumer
 
-Broadway has a queue of [built-in Actors](/articles/19_Broadway/actors/04_queue_actors.md) that manage Pub or Sub asynchronous message handling and can subscribe to Apache Kafka messages. 
+Broadway has a queue of [built-in Actors](/articles/19_Broadway/actors/04_queue_actors.md) that manage the handling of Pub or Sub asynchronous messages and can subscribe to Apache Kafka messages. 
 
 Since Fabric publishes [CDC messages](/articles/18_fabric_cdc/02_cdc_messages.md) to Kafka, a dedicated CDC consumer can be defined in Broadway to subscribe CDC messages in a [Broadway flow](/articles/19_Broadway/02a_broadway_flow_overview.md).
 
-## Adding a CDC Consumer for Broadway
+## Adding a CDC Consumer for a Broadway Flow
 
 To customize Fabric Studio and add an additional CDC consumer for a Broadway flow, do the following:
 
@@ -12,7 +12,7 @@ To customize Fabric Studio and add an additional CDC consumer for a Broadway flo
 
 2.  Open the **[project name].k2proj** file to be edited.
 
-3.  Edit the **DataChangeIndicators** tag by adding the **DataChange** tag. By default, the **DataChangeIndicators** contains the **Search** consumer.  Set the consumer name in the **name** and set the **Option** in the **Options** tag to **data**.  See the following example:
+3.  Edit the **DataChangeIndicators** tag by adding the **DataChange** tag. By default, the **DataChangeIndicators** contain the **Search** consumer.  Set the consumer name in the **name** and set the **Option** in the **Options** tag to **data**.  See the following example:
 
 ```
 <DataChangeIndicators>
@@ -33,7 +33,7 @@ To customize Fabric Studio and add an additional CDC consumer for a Broadway flo
 
 ## Creating CDC Indexes for Broadway
 
-Select the LU table's columns to be published to the CDC topic of Broadway. 
+Select the LU table columns to be published to the CDC topic of Broadway. 
 
 
 
@@ -49,7 +49,7 @@ Create a new Interface. Set the **Interface Type** to **Kafka**.  Populate the *
 
 Define a Broadway flow. Add the built-in **Subscribe** Actor and set its input parameters as follows:
 
-- Set the interface according to the setttings in the Kafka interface added to the Fabric project.
+- Set the interface according to the settings in the Kafka interface added to the Fabric project.
 
 - Set the topic according to the CDC consumer name (CDCBroadway in the above example). Note that the topic name of each CDC consumer is identical to the CDC consumer name.
 
