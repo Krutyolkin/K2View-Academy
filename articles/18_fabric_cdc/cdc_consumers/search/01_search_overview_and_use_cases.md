@@ -1,6 +1,6 @@
 # Search Overview and Use Cases
 
-The Fabric CDC solution has built-in integration with Elasticsearch that enables cross-instance searches. Note that an installation of Elasticsearch is required.
+Fabric CDC has built-in integration with Elasticsearch that enables cross-instance searches. Note that an installation of Elasticsearch is required.
 
 For example, to search for all customers named “John Doe” and live in “New-York”.
 
@@ -18,9 +18,9 @@ A search can be executed either by running a Search request directly in Elastics
 
    - Examples:
      - Search all customers whose first name is "Meryl" and last name is  "Streep". Run a case insensitive search and allow up to two errors. The search returns customers named "Meryl Streep", "meryl streep", or "Meril Streep" .
-     - Search all customer whose full name is "Meryl Streep". Enable a different order of words within a field. The search returns customer named "Meryl Streep" or "Streep Meryl".
-     - Search customers whose ID number is '1234567'. Return all customer whose ID number contains at least 4 digits of the searched value and at least 2 of the digits have the correct order. The search returns '1243',  '56347712', and '654331234'.
-     - Support partial match.  At least 8 digits exist, but there must not be more than 2 additional digits/letters.
+     - Search all customers whose full name is "Meryl Streep". Enable a different order of words within a field. The search returns customer named "Meryl Streep" or "Streep Meryl".
+     - Search all customers whose ID number is '1234567'. Return all customers whose ID number contains at least 4 digits of the searched value and at least 2 of the digits have the correct order. The search returns '1243',  '56347712', and '654331234'.
+     - Support a partial match.  At least 8 digits exist, but there must not be more than 2 additional digits/letters.
 
 2. Predictive search. Complete the value typed by the user. 
 
