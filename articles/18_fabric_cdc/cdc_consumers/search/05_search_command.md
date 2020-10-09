@@ -17,7 +17,7 @@ SEARCH lutype=<LUT_Name> TABLES=<tables names> '<Search Query>';
 
 ## Search Command - Examples
 
-The following table contains examples of SEARCH commands for common use cases. 
+The following contains examples of SEARCH commands for common use cases. 
 
 Note that the SEARCH command can run any search query, supposed by Elasticsearch.
 
@@ -75,7 +75,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [case-insensitive-match](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable case insensitive searches on the full mail address. By default (text) - the @ and . chars split the tokens. Therefore, when using the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+  - Add a [case-insensitive-match](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the Search field. This setting is needed to enable case insensitive searches on the full email address. By default (text) - the @ and . chars split the tokens. Therefore, when using the default setting, the search command matches tali@gmail.com to tali@k2view.com.
 
 - #### Elasticsearch Method
   - match
@@ -130,7 +130,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [case-insensitive-match template](02_search_implementation.md#search-index-types-templates) to the Search options in the .k2proj file and select it as the type for the search field. This setting is needed to enable a case insensitive search on the full mail address. By default (text), the @ and . chars split the tokens. Therefore, when using  the default setting, the search command matches tali@gmail.com to tali@k2view.com.
+  - Add a [case-insensitive-match template](02_search_implementation.md#search-index-types-templates) to the Search options in the .k2proj file and select it as the type for the Search field. This setting is needed to enable a case insensitive search on the full email address. By default (text), the @ and . chars split the tokens. Therefore, when using  the default setting, the search command matches tali@gmail.com to tali@k2view.com.
 
 - #### Elasticsearch Method
 
@@ -158,8 +158,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 - #### Elasticsearch Method Options
 
   - **match_phrase + slop**. The value of the **slop** parameter defines the number of words that can be located between the words of the search. The default of the slop is zero.
-  - Set **match** method on each one of the required words. 
-  - Note that unlike the **match** method, the **match_phrase** does not support the use of fuzziness**. To use fuzziness, use the **match** option.
+  - Set the **match** method on each one of the required words. 
+  - Note that unlike the **match** method, the **match_phrase** does not support the use of fuzziness. To use fuzziness, use the **match** option.
 
 - #### Search Examples
 
@@ -192,7 +192,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
   - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "FIRST_NAME": {"query" : "Waneta"}}}}';
   - search lutype=CUSTOMER tables=CUSTOMER '{"query": {"match" : { "ID_NUMBER": {"query" : "1234"}}}}';
 
-### 8. Transposed Digits- Partial Match
+### 8. Transposed Digits - Partial Match
 
 - #### Description
 
@@ -245,7 +245,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the Search field.
 
 - #### Elasticsearch Method
 
@@ -272,7 +272,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 - #### Fabric Implementation Guidelines
 
-  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the search field.
+  - Add a [precision-match-20](02_search_implementation.md#search-index-types-templates) template to the Search options in the .k2proj file and select it as the type for the Search field.
 
 - #### Elasticsearch Method
 
@@ -317,7 +317,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 - #### Elasticsearch Method
 
   - bool + must + multi_match.
-  - Note that when using **must** method, all the conditions must match. However, when using  **should**  method you can set a parameter- **minimum_should_match**- to define how many conditions need to match by the search query.
+  - Note that when using the **must** method, all conditions must match. However, when using the **should**  method you can set a **minimum_should_match** parameter to define how many conditions need to match the search query.
 
 - #### Search Example
 
