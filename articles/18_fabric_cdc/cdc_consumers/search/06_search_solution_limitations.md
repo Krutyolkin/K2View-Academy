@@ -1,4 +1,4 @@
-# Search Solution- Limitations
+# Search Solution - Limitations
 
 - Each search can include only one LU.  
 - A search can include several LU tables only if they have the same structure and the same list of Search fields. Therefore, to run a search on fields related to different LU tables, it is recommended to build an additional LU table holding all Search fields to be included into one Search command.
