@@ -110,6 +110,7 @@ Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configu
 </td>
 <td width="450pxl" valign="top" >
 <p>Populate the #BOOTSTRAP_SERVERS by IP address of the Kafka servers.</p>
+  <p> It is possible to populate several IP addresses separated by a comma. </p>
 </td>
 </tr>
 <tr>
@@ -147,6 +148,7 @@ Fabric [config.ini file](/articles/02_fabric_architecture/05_fabric_main_configu
 </td>
 <td width="450pxl" valign="top" >
 <p>Populate the #BOOTSTRAP_SERVERS by IP address of the Kafka servers.</p>
+<p> It is possible to populate several IP addresses separated by a comma. </p>
 </td>
 </tr>
 <tr>
