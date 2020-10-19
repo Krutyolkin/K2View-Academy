@@ -28,6 +28,7 @@
 </ul>
 </td>
 <td valign="top">
+<li>CDC Configuration</li>    
 <li>Exercise:
 <ul>    
 <li>CDC Implementation- Adding CDC fields to Customer LU</li>
@@ -57,6 +58,7 @@
 </tr>
 </tbody>
 </table>
+
 
 
 
