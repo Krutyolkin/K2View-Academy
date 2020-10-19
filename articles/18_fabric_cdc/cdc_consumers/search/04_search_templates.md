@@ -107,7 +107,22 @@
 
 6. When creating a new Search index, you can also select the added template as a **Type**.
 
-   
+#### Using N-gram Search Templates
+
+It is recommended to limit the number of Search fields, based on N-gram templates - **predictive-search** and **precision-match-20** - due to the high amount of disk space, required to store these fields.
+Examples: 
+- The **predictive-search** template is based on **Edge-n-gram** tokenizer. The following tokens are created for 'Tali'- 
+   - 't', 'ta', 'tal', 'tali' 
+
+- The **precision-match-20** template is based on **N-gram** tokenizer. The following tokens are created for 'John Doe'-
+   - 1gram:  'j', 'o', 'h', 'n', 'd', 'o', 'e'
+   - 2gram: 'jo', 'oh', 'hn', 'nd', 'do', 'oe'
+   - 3gram: 'joh', 'ohn', 'hnd', 'ndo', 'doe'
+   - 4gram: 'john', 'ohnd', 'hndo', 'ndoe'
+   - 5gram: 'johnd', 'ohndo', 'hndoe' 
+   - 6gram: 'johndo', 'ohndoe' 
+   - 7gram : 'johndoe'
+
 
 #### Update Search Columns Using Templates
 
