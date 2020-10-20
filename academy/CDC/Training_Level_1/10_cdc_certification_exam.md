@@ -1,4 +1,4 @@
-# Fabric CDC Certification Exam
+# Fabric CDC and Search Certification Exam
 
 <img src="/academy/images/Quiz.png" style="zoom:80%;" /> 
 
@@ -10,7 +10,7 @@ The exam consists of a number of multiple-choice questions, each providing a num
 
 #### Question 1: CDC Overview
 
-Fabric CDC capabilities enable you to:
+How is the CDC being used in Fabric?
 
 
 \- A:  Publish Fabric changes to the outside world.
@@ -18,11 +18,11 @@ Fabric CDC capabilities enable you to:
 
 \- B:  Get data changes from the source systems and sync Fabric data accordingly.
 
-\- C:  Run cross instance search.
+\- C:  Feed the data changes to the Search Loader.
 
 \- D:  A and C are correct.
 
-(**Solution 1. D: Fabric CDC capabilities enables publishing changes on predefined LU fields to external CDC consumers. One of the CDC consumers is Elasticsearch which enables cross instance search**).
+(**Solution 1. D**).
 
 
 
@@ -121,13 +121,13 @@ Assuming you have three CDC Consumers in your project, how many Kafka topics are
 
 #### Question 7: Implementation Changes
 
-What happens when new CDC fields are added to the LU and the updated LU is redeployed to Fabric? 
+What happens when you define LU table columns as CDC fields and redeploy the updated LU to Fabric? 
 
 \- A:  Fabric publishes a CDC Update Schema message to the CDC consumers, but you must re-migrate all LUIs to publish the data of the new CDC fields to the CDC consumers.
 
 \- B:  Nothing happens. You must drop and redeploy the LU to publish the updated CDC fields to the CDC consumers.
 
-\- C:  Fabric publishes a CDC Update Schema message to the CDC consumers and initiates a CDC_REPUBLISH_INSTANCE command on each Fabric LUI to publish the CDC data of the new CDC fields to the CDC consumers.
+\- C:  Fabric publishes a CDC Update Schema message to the CDC consumers and initiates a batch process running the CDC_REPUBLISH_INSTANCE command on each Fabric LUI to publish the CDC data of the new CDC fields to the CDC consumers.
 
 \- D:  None of the above.
 
@@ -147,10 +147,10 @@ You add a new LU table with CDC fields to the LU. How can you update the data of
 
 \- C:  You need to deploy the updated LU and then re-migrate all LUIs.
 
-\- D:  You need to run a batch process to run CDC_REPUBLISH_INSTANCE on all the LUIs.
+\- D:  You need to run manually a batch process to run CDC_REPUBLISH_INSTANCE on all the LUIs.
 
 
-(**Solution 8. C: The deploy of the LU activates the CDC_REPUBLISH_INSTANCE on all LUIs, but you need to re-migrate all LUIs to bring the data of the new LU table into Fabric. The migrate updates the MicroDB  and publishes a CDC Table Change Info message on each LUI to the CDC consumers**).
+(**Solution 8. C: It is needed to re-migrate all LUIs to bring the data of the new LU table into Fabric. The migrate updates the MicroDB  and publishes a CDC Table Change Info message on each LUI to the CDC consumers**).
 
 
 
@@ -236,7 +236,7 @@ How can you add Search fields to the LU?
 
 #### Question 14: Search
 
-You need to search instances by their ID number field. Which Search field type do you need to create on the ID number field?
+You need to search instances by their Full Name field. Which Search field type do you need to create on the Full Name field?
 
 \- A: keyword.
 
@@ -284,7 +284,7 @@ The search does not return one of the customers that exist in the source system.
 
 #### Question 17: Search
 
-The search does return any customer by the ID number. What can be the reason for it?
+The search does not return any customer by the ID number. What can be the reason for it?
 
 \- A: The customers stored in Fabric do match the searched value.
 
