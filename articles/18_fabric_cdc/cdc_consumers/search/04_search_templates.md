@@ -128,13 +128,15 @@ Examples:
 
 - Fabric only supports using templates on Search fields when the template is set as a type during the first deployment of the corresponding LU table. This is because Fabric creates an index in Elasticsearch for each LU Table that has search indexes. Using a template on a search field requires different index settings in Elasticsearch. Since the index settings cannot be changed once created in Elasticsearch, to update a Search field from a supported Elasticsearch type to a template, do the following:
 
-  - Get the index definition from Elasticsearch using Elasticsearch API.
-  - Remove the index definition from Elasticsearch using Elasticsearch API.
-  - Create the updated index in Elasticsearch using Elasticsearch API. 
-  - Initiate a [batch process](/articles/20_jobs_and_batch_services/11_batch_process_overview.md) to run the CDC_REPUBLISH_INSTANCE to republish the data of each LUI to Elasticsearch.
+  - Create an index with the update settings in the Elasticsearch.
+  - Re-index the data from the old Elasticsearch index to the new index.
+  - Drop the old Elasticsearch index.
+  - Add an alias with the same of the old index to the new Elasticsearch index.
+
+  
 
   [Click for more information about creating Elasticsearch indexes](03_creating_elasticsearch_indexes_on_search_fields.md).
 
   
-
+  
   [![Previous](/articles/images/Previous.png)](03_creating_elasticsearch_indexes_on_search_fields.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_search_command.md)

@@ -1,4 +1,4 @@
-# Level 1 CDC Training Syllabus
+# Level 1 CDC and Search Training Syllabus
 
 <table style="width: 900px;">
 <tbody>
@@ -18,16 +18,13 @@
 <td valign="top">
 <ul>
 <li>Course Introduction
-<ul>
-<li>Overview and Main Objectives</li>
-</ul>
-</li>
 <li>CDC Overview</li>
 <li>CDC Messages and Publication Flow</li>
 <li>CDC Implementation and Configuration</li>
 </ul>
 </td>
 <td valign="top">
+<li>Broadway as CDC Consumer </li>
 <li>Exercise:
 <ul>    
 <li>CDC Implementation and Configuration</li>
@@ -39,9 +36,8 @@
 <td style="text-align: center;"><strong>Day 2</strong></td>
 <td valign="top">
 <ul>
-<li>Broadway as CDC Consumer </li>
 <li>Search Overview</li>
-<li>Search Implementation</li>
+<li>Search Implementation and Configuration</li>
 <li>Search Command</li>
 <li>Search Solution - Limitations</li>
 </td>
