@@ -9,3 +9,7 @@
 - The Reset drop command does not clean Elasticsearch. Run the [DROP LU](/articles/02_fabric_architecture/04_fabric_commands.md#drop-lu-command) command to clean each LU from  Elasticsearch.
 
 Note that the Fabric Studio does not enable defining more than 63 columns as a CDC field in the same LU table, assuming that all columns are positioned according to 1 to 63 in the LU table.
+
+
+
+[![Previous](/articles/images/Previous.png)](05_search_command.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](07_search_configuration.md)

@@ -443,7 +443,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 
 
-
+[![Previous](/articles/images/Previous.png)](04_search_templates.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](06_search_solution_limitations.md)
 
 
 
