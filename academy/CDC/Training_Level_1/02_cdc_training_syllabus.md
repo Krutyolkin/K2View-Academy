@@ -23,15 +23,14 @@
 </ul>
 </li>
 <li>CDC Overview</li>
-<li>CDC Implementation</li>
 <li>CDC Messages and Publication Flow</li>
+<li>CDC Implementation and Configuration</li>
 </ul>
 </td>
 <td valign="top">
-<li>CDC Configuration</li>    
 <li>Exercise:
 <ul>    
-<li>CDC Implementation- Adding CDC fields to Customer LU</li>
+<li>CDC Implementation and Configuration</li>
 </ul>
 </li>
 </td>
@@ -58,6 +57,7 @@
 </tr>
 </tbody>
 </table>
+
 
 
 
