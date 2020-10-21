@@ -12,5 +12,5 @@
 <li><a href="/articles/18_cdc_and_search/05_cdc_process_architecture.md">CDC Process Architecture</a></li>
 <li><a href="/articles/18_cdc_and_search/06_cdc_configuration.md">CDC Configuration</a></li>
 <li><a href="/articles/18_fabric_cdc/cdc_consumers/README.md">CDC Consumers</a></li>   
-</ul>
+</ul> 
 
