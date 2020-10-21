@@ -1,4 +1,4 @@
-### Search Index Types Templates
+# Search Index Types Templates
 
 -  Fabric enables adding templates for Search fields when the default settings do not match a search's needs. For example: search by fields that contain special characters like an email address.
 
