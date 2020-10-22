@@ -10,7 +10,7 @@ K2View will not be liable for any unauthorized, unlicensed or unallowed use (“
 
 2.  Copy the Zookeeper zip file to your local directory. For example **C:\k2view**, and extract the zip file.
 
-3.  Go to the **conf** sub-directory under the Zookeeper directory. For example **C:\k2view\apache-zookeeper-3.6.1-bin\conf** directory: 
+3.  Go to the **conf** sub-directory under the Zookeeper directory. For example **C:\k2view\apache-zookeeper-3.6.1-bin\conf** directory. 
 
 4.  Rename the **zoo_sample.cfg** file to **zoo.cfg**.
 5.  Open the **zoo.cfg** file for editing in any text editor like Notepad++. Find **dataDir=/tmp/zookeeper** and replace the **/tmp/zookeeper** with the Zookeeper data directory. For example **dataDir=C:\k2view\apache-zookeeper-3.6.1-bin\data**. 
