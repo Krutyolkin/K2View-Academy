@@ -49,33 +49,33 @@
 
 - Start Kafka Consumer on a Specific Topic 
 
-```
+  ```
   $K2_HOME/kafka/bin/kafka-console-consumer --topic <topicName> --bootstrap-server <server ip>:9093
-```
+  ```
 
 
 
 - Delete Kafka Topic   
 
-```
-$K2_HOME/kafka/bin/kafka-topics --delete --topic <topicName> --zookeeper <zookeeper ip>:2181
-```
+  ```
+  $K2_HOME/kafka/bin/kafka-topics --delete --topic <topicName> --zookeeper <zookeeper ip>:2181
+  ```
 
 
 
 - Start Kafka Consumer on Multiple Topics Based on RegEx  
 
-```
-$K2_HOME/kafka/bin/kafka-console-consumer  --whitelist ‘^(IDFINDER).*’ --bootstrap-server <server ip>:9093 
-```
+  ```
+  $K2_HOME/kafka/bin/kafka-console-consumer  --whitelist ‘^(IDFINDER).*’ --bootstrap-server <server ip>:9093 
+  ```
 
 
 
 - Start Kafka Consumer on a Specific Topic from the Beginning  
 
-```
-$K2_HOME/kafka/bin/kafka-console-consumer --topic <topicName> --bootstrap-server <server ip>:9093 --from-beginning
-```
+  ```
+  $K2_HOME/kafka/bin/kafka-console-consumer --topic <topicName> --bootstrap-server <server ip>:9093 --from-beginning
+  ```
 
  
 
@@ -89,17 +89,17 @@ $K2_HOME/kafka/bin/kafka-console-consumer --topic <topicName> --bootstrap-server
 
 - Get a List of Consumer Groups 
 
-```
- $K2_HOME/kafka/bin/kafka-consumer-groups --bootstrap-server <server ip>:9093 –list
-```
+  ```
+   $K2_HOME/kafka/bin/kafka-consumer-groups --bootstrap-server <server ip>:9093 –list
+  ```
 
 
 
 - Count the Messages Published to Kafka So Far  
 
-```
- $K2_HOME/kafka/bin/kafka-run-class kafka.tools.GetOffsetShell --broker-list <server ip>:9098 --topic <TOPIC> --time -1 --offsets
-```
+  ```
+   $K2_HOME/kafka/bin/kafka-run-class kafka.tools.GetOffsetShell --broker-list <server ip>:9098 --topic <TOPIC> --time -1 --offsets
+  ```
 
 
 
