@@ -40,7 +40,7 @@
 
   
 
-- Create topic 
+- Create Topic 
   ```
   $K2_HOME/kafka/bin/kafka-topics --create --replication-factor <n> --partitions <k> --topic <topicName> --zookeeper <ZOOKEEPER IP>:2181
   ```
@@ -79,7 +79,7 @@
 
  
 
-- Check for a Lag on Messages Consumption  
+- Check for a Lag in Messages Consumption  
 
 ```
  $K2_HOME/kafka/bin/kafka-consumer-groups --group <groupID> -- describe --bootstrap-server <server ip>:9093
@@ -103,29 +103,25 @@
 
 
 
-Note that if you run Kafka on a windows server, you need make the following adjustments on he commands above: 
+Note that when running Kafka on a Windows server, make the following adjustments on the above commands: 
 
-- Run the *.bat scripts from the cmd window. 
+- Run the **.bat** scripts from the cmd window. 
 
   **Examples:**
 
-  - To start Kafka on windows server, run the following steps:
+  - To start Kafka on a Windows server, do the following:
 
     - Open a new cmd window in the same location as [Kafka local directory]
 
-    -  Run the following command on the cmd window:
-
-      .\bin\windows\kafka-server-start.bat .\config\server.properties 
+    -  Run the following command on the cmd window: .\bin\windows\kafka-server-start.bat .\config\server.properties 
 
   - To start a Kafka consumer on a "test" topic, do the following:
 
-    - Open a new cmd window in the same location as [Kafka local directory]\bin\windows
+    - Open a new cmd window in the same location as [Kafka local directory]\bin\windows.
 
-    - Run the following command on the cmd window:
+    - Run the following command on the cmd window: kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test.
 
-      kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test
-
-- The local Kafka installation runs on a default port 9092. Edit the commands above and replace the port from 9093 to 9092.
+The local Kafka installation runs on the default port (9092). Edit the above commands and replace port 9093 with port 9092.
 
 - [Click for more information about local installation of Kafka and Zookeeper](/articles/demo_project/01_local_installation_of_zookeper_kafka_and_ES.md).
 
