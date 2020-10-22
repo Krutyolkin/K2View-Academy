@@ -16,9 +16,9 @@ The following diagram describes a list of events that trigger CDC messages:
 
 ### CDC_REPUBLISH_SCHEMA
 
-Republish a full schema definition of the LU by demand.
+-  Republish a full schema definition of the LU by demand.
 
-An LU schema can be republished to all CDC consumers or to a selected list of CDC consumers.
+-  An LU schema can be republished to all CDC consumers or to a selected list of CDC consumers.
 
 **Examples:**
 
