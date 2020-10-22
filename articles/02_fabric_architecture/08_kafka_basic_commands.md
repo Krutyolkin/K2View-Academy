@@ -109,23 +109,24 @@ Note that when running Kafka on a Windows server, make the following adjustments
 
   **Examples:**
 
-  - To start Kafka on a Windows server, do the following:
+- To start Kafka on a Windows server, do the following:
 
-    - Open a new cmd window in the same location as [Kafka local directory]
-
-    -  Run the following command on the cmd window: .\bin\windows\kafka-server-start.bat .\config\server.properties 
-
-  - To start a Kafka consumer on a "test" topic, do the following:
-
-    - Open a new cmd window in the same location as [Kafka local directory]\bin\windows.
-
-    - Run the following command on the cmd window: kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test.
-
-The local Kafka installation runs on the default port (9092). Edit the above commands and replace port 9093 with port 9092.
-
-- [Click for more information about local installation of Kafka and Zookeeper](/articles/demo_project/01_local_installation_of_zookeper_kafka_and_ES.md).
-
+  - Open a new cmd window in the same location as [Kafka local directory]
+  - Run the following command on the cmd window:
+    - .\bin\windows\kafka-server-start.bat .\config\server.properties 
   
+- To start a Kafka consumer on a "test" topic, do the following:
+
+  - Open a new cmd window in the same location as [Kafka local directory]\bin\windows.
+  - Run the following command on the cmd window: 
+    - kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test
+
+- The local Kafka installation runs on the default port (9092). Edit the above commands and replace port 9093 with port 9092.
+
+
+[Click for more information about local installation of Kafka and Zookeeper](/articles/demo_project/01_local_installation_of_zookeper_kafka_and_ES.md).
+
+
 
 [![Previous](/articles/images/Previous.png)](07_cassandra_basic_commands.md)
 
