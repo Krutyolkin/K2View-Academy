@@ -2,7 +2,7 @@
 
 Fabric enables adding templates for Search fields when the default settings do not match a search's needs. For example, to search by fields that contain special characters like an email address. 
 -  Each template is in JSON format and creates index settings in Elasticsearch.
--  All templates must be saved in the Fabric server under the **$K2_HME/config/cdc-tags** directory.
+-  All templates must be saved in the Fabric server under the **$K2_HOME/config/cdc-tags** directory.
 -  Fabric has  **default templates** that are saved under the **cdc-tags** directory:
 
 <table width="900pxl">
@@ -107,8 +107,9 @@ Fabric enables adding templates for Search fields when the default settings do n
 
 #### Using N-gram Search Templates
 
-It is recommended to limit the number of Search fields based on N-gram **predictive-search** and **precision-match-20** templates due to the extremely large disk space required to store these fields.
+It is recommended to limit the number of Search fields based on N-gram tokenizer like **predictive-search** and **precision-match-20** templates due to the extremely large disk space required to store these fields.
 For example: 
+
 - The **predictive-search** template is based on the **Edge-n-gram** tokenizer. The following tokens are created for 'Tali'- 
    - 't', 'ta', 'tal', 'tali' 
 
@@ -124,7 +125,7 @@ For example:
 
 #### Update Search Columns Using Templates
 
-Fabric only supports using templates on Search fields when the template is set as a type during the first deployment of the corresponding LU table. This is because Fabric creates an index in Elasticsearch for each LU Table that has searches indexes. Using a template on a search field requires different index settings in Elasticsearch. 
+Fabric only supports using templates on Search fields when the template is set as a type during the first deployment of the corresponding LU table. This is because Fabric creates an index in Elasticsearch for each LU Table that has Search fields. Using a template on a Search field requires different index settings in Elasticsearch. 
 
 Since the index settings cannot be changed once created in Elasticsearch, to update a Search field from a supported Elasticsearch type to a template, do the following:
 

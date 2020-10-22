@@ -26,4 +26,5 @@ Read [CDC Configuration](/articles/18_fabric_cdc/06_cdc_configuration.md) to lea
 
 
 
-[![Previous](/articles/images/Previous.png)](03_cdc_overview.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](04_cdc_publication_flow.md)
+[![Previous](/articles/images/Previous.png)](03_cdc_overview.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](05_cdc_consumer_example_using_broadway_as_cdc_consumer.md)
+

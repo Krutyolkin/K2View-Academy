@@ -2,4 +2,11 @@
 
 [Broadway](/articles/19_Broadway/01_broadway_overview.md) has a queue of [built-in Actors](https://github.com/k2view-academy/K2View-Academy/blob/Academy_6.2_CDC_Tali/articles/19_Broadway/actors/04_queue_actors.md) that manage the handling of Pub or Sub asynchronous messages and can subscribe to Apache Kafka messages.
 
-Since Fabric publishes the [CDC messages](https://github.com/k2view-academy/K2View-Academy/blob/Academy_6.2_CDC_Tali/articles/18_fabric_cdc/02_cdc_messages.md) to Kafka, a dedicated CDC consumer can be defined in Broadway to subscribe CDC messages in a [Broadway flow](https://github.com/k2view-academy/K2View-Academy/blob/Academy_6.2_CDC_Tali/articles/19_Broadway/02a_broadway_flow_overview.md).
+Therefore a [Broadway flow](/articles/19_Broadway/02a_broadway_flow_overview.md) can subscribe the [CDC messages](https://github.com/k2view-academy/K2View-Academy/blob/Academy_6.2_CDC_Tali/articles/18_fabric_cdc/02_cdc_messages.md) , published by Fabric to Kafka.
+
+[Click to read how to add a CDC consumer for a Broadway flow](/articles/18_fabric_cdc/cdc_consumers/broadway/01_broadway_as_cdc_consumer.md).
+
+
+
+[![Previous](/articles/images/Previous.png)](04_cdc_implementation_and_configuration.md)[<img align="right" width="60" height="54" src="/articles/images/Next.png">](06_cdc_implementation_and_configuration_exercise.md)
+
