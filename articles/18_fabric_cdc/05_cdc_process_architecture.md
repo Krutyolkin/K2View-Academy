@@ -10,9 +10,9 @@ The following diagram describes the CDC process:
 
 A transaction on an LUI may involve several updates in several of its LU tables. Each update (write) in the MicroDB SQLite file of the LUI, activates a Fabric trigger that sends the change to the **CDC Message**. The CDC Message publishes a message to Kafka for each insert, update, or delete event in the MicroDB. Each message has the LUI (iid), event type, old and new values of each CDC column, PK columns of the LU table and transaction ID.
 
-If the transaction is committed, a **Commit message** is sent by the **CDC Message**. 
+-  If the transaction is committed, a **Commit message** is sent by the **CDC Message**. 
 
-If the transaction is interrupted, rolled back or failed, a **Rollback message** is sent by the **CDC Message**. 
+-  If the transaction is interrupted, rolled back or failed, a **Rollback message** is sent by the **CDC Message**. 
 
 ### CDC Message
 
@@ -20,7 +20,7 @@ The CDC Message publishes transaction messages to **Kafka**  for each UPDATE, IN
 
 ### CDC Publisher
 
-When the MicroDB is saved into Cassandra, the thread of the transaction sends a **Publish Acknowledge**  message to the Kafka **CDC_TOPIC** when the MicroDB is saved to Cassandra. 
+When the MicroDB is saved into Cassandra, the transaction's thread sends a **Publish Acknowledge**  message to the Kafka **CDC_TOPIC** when the MicroDB is saved to Cassandra. 
 
 The CDC_TRANSACTION_PUBLISHER job consumes the transaction messages from Kafka and creates a [CDC message](02_cdc_messages.md) for each transaction. Each CDC consumer has its own Kafka topic.
 
