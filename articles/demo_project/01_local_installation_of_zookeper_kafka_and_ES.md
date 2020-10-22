@@ -1,5 +1,9 @@
 # Local Installations of Zookeeper, Kafka, and Elasticsearch
 
+Note: All installations are subject to your legal use of the software installed, according to each software’s license terms.
+
+K2View will not be liable for any unauthorized, unlicensed or unallowed use (“Prohibited Use”) of the software by you or for any damages caused to you or any third party as a result of the Prohibited Use.
+
 ### **Installing and Setup of Zookeeper** 
 
 - Download  the  latest Zookeeper from https://zookeeper.apache.org/releases.html . 
