@@ -80,11 +80,11 @@ Fabric enables adding templates for Search fields when the default settings do n
 
 #### Adding the Templates to the Types List for Search Columns
 
-1. Go to the **project tree**, right click the project name >  **Open Folder**. 
+1. Go to the **project tree**, right click the **project name** >  **Open Folder**. 
 
 2. Open the **[project name].k2proj** file to be edited.
 
-3. Edit the **Search** options under the **DataChangeIndicators** tag and add the template names to the Options tag. See the following an example on adding a **precision-match-20 template**:
+3. Edit the **Search** options under the **DataChangeIndicators** tag and add the template names to the Options tag. The following example displays adding a **precision-match-20 template**:
 
    ```
    <DataChangeIndicators>
@@ -101,14 +101,14 @@ Fabric enables adding templates for Search fields when the default settings do n
 
 4. Save and close the **.k2proj** file.
 
-5. Close and reopen the project to reload the updated .k2proj file.
+5. Close and reopen the project to reload the updated **.k2proj** file.
 
 6. When creating a new Search index, you can also select the added template as a **Type**.
 
 #### Using N-gram Search Templates
 
 It is recommended to limit the number of Search fields based on N-gram **predictive-search** and **precision-match-20** templates due to the extremely large disk space required to store these fields.
-For Example: 
+For example: 
 - The **predictive-search** template is based on the **Edge-n-gram** tokenizer. The following tokens are created for 'Tali'- 
    - 't', 'ta', 'tal', 'tali' 
 
@@ -131,7 +131,7 @@ Since the index settings cannot be changed once created in Elasticsearch, to upd
 - Create an index with the update settings in Elasticsearch.
 - Re-index the data from the old Elasticsearch index to the new index.
 - Drop the old Elasticsearch index.
-- Add an alias with the same settings of the previous index to the new Elasticsearch index.
+- Add an alias with the same settings as the previous index to the new Elasticsearch index.
 
   
 
