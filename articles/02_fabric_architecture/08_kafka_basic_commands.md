@@ -130,3 +130,6 @@ Note that if you run Kafka on a windows server, you need make the following adju
 - [Click for more information about local installation of Kafka and Zookeeper](/articles/demo_project/01_local_installation_of_zookeper_kafka_and_ES.md).
 
   
+
+[![Previous](/articles/images/Previous.png)](07_cassandra_basic_commands.md)
+
